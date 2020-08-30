@@ -1,0 +1,65 @@
+﻿@page
+@model EAuction.Pages.Auctions.EditModel
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Auction</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Auction.Name" class="control-label"></label>
+                <input asp-for="Auction.Name" class="form-control" />
+                <span asp-validation-for="Auction.Name" class="text-danger"></span>
+            </div>
+            <input type="hidden" asp-for="Auction.Id" />
+            <div class="form-group">
+                <label asp-for="Auction.Winner" class="control-label"></label>
+                <input asp-for="Auction.Winner" class="form-control" />
+                <span asp-validation-for="Auction.Winner" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auction.Details" class="control-label"></label>
+                <input asp-for="Auction.Details" class="form-control" />
+                <span asp-validation-for="Auction.Details" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auction.UrlImage" class="control-label"></label>
+                <input asp-for="Auction.UrlImage" class="form-control" />
+                <span asp-validation-for="Auction.UrlImage" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auction.Price" class="control-label"></label>
+                <input asp-for="Auction.Price" class="form-control" />
+                <span asp-validation-for="Auction.Price" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auction.StartDate" class="control-label"></label>
+                <input asp-for="Auction.StartDate" class="form-control" />
+                <span asp-validation-for="Auction.StartDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Auction.EndDate" class="control-label"></label>
+                <input asp-for="Auction.EndDate" class="form-control" />
+                <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-page="./Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
