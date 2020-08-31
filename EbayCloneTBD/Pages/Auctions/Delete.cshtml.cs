@@ -8,7 +8,7 @@ using Microsoft.EntityFrameworkCore;
 using EbayCloneTBD.Data;
 using EbayCloneTBD.Models;
 
-namespace EAuction.Pages.Auctions
+namespace tf_with.Pages.Auctions
 {
     public class DeleteModel : PageModel
     {

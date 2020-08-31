@@ -25,7 +25,7 @@ namespace EbayCloneTBD.Models
             throw new NotImplementedException();
         }
 
-        public void DeleteAuctionById()
+        public void Delettf_withById()
         {
             throw new NotImplementedException();
         }
@@ -42,9 +42,36 @@ namespace EbayCloneTBD.Models
             
         }
 
-        public void UpdateAuction()
+        public void Updattf_with()
         {
             throw new NotImplementedException();
+        }
+
+        public IEnumerable<Auction> GetAuctions(string SearchString)
+        {
+            return Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+
+        public IEnumerable<Auction> SortAuctions(IEnumerable<Auction> auctions,string SortOrder)
+        {
+           string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+           string  DateSort = SortOrder == "Date" ? "date_desc" : "Date";
+            switch (SortOrder)
+            {
+                case "name_desc":
+                    auctions = auctions.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    auctions = auctions.OrderBy(s => s.EndDate);
+                    break;
+                case "date_desc":
+                    auctions = auctions.OrderByDescending(s => s.EndDate);
+                    break;
+                default:
+                    auctions = auctions.OrderBy(s => s.Name);
+                    break;
+            }
+            return auctions;
         }
     }
 }

@@ -7,20 +7,27 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EbayCloneTBD.Data;
 using EbayCloneTBD.Models;
+using tf_with.Models;
 
-namespace EAuction.Pages.Auctions
+namespace tf_with.Pages.Auctions
 {
     public class CreateModel : PageModel
     {
         private readonly EbayCloneTBD.Data.ApplicationDbContext _context;
+        private readonly IHtmlHelper htmlHelper;
+        public int SelectedValue;
 
-        public CreateModel(EbayCloneTBD.Data.ApplicationDbContext context)
+        public IEnumerable<SelectListItem> Countries { get; set; }
+        public IEnumerable<SelectListItem> Countries2 { get; set; }
+        public CreateModel(ApplicationDbContext context, IHtmlHelper htmlHelper)
         {
             _context = context;
+            this.htmlHelper = htmlHelper;
         }
 
-        public IActionResult OnGet()
+        public async Task<IActionResult> OnGetAsync()
         {
+            Countries = htmlHelper.GetEnumSelectList<SimpleCategory>();
             return Page();
         }
 
@@ -32,9 +39,12 @@ namespace EAuction.Pages.Auctions
         public async Task<IActionResult> OnPostAsync()
         {
             if (!ModelState.IsValid)
-            {
+            {           
+
+                Countries = htmlHelper.GetEnumSelectList<Country>();
                 return Page();
             }
+            string result = Enum.GetName(typeof(SimpleCategory), SelectedValue);
 
             _context.Auctions.Add(Auction);
             await _context.SaveChangesAsync();

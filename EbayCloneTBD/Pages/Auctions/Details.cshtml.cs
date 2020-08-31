@@ -8,7 +8,7 @@ using EbayCloneTBD.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace EAuction.Pages.Auctions
+namespace tf_with.Pages.Auctions
 {
     public class DetailsModel : PageModel
     {

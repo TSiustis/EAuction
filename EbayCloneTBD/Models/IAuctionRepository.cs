@@ -10,7 +10,9 @@ namespace EbayCloneTBD.Models
         IEnumerable<Auction> GetAuctions();
         void CreateAction();
         Auction GetAuctionById(int id);
-        void UpdateAuction();
-        void DeleteAuctionById();
+        void Updattf_with();
+        void Delettf_withById();
+        IEnumerable<Auction> GetAuctions(string SearchString);
+        IEnumerable<Auction> SortAuctions(IEnumerable<Auction> auctions,string SortOrder);
     }
 }
