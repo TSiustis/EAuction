@@ -59,7 +59,7 @@ namespace EbayCloneTBD.Pages.Auctions
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.EndDate);
                     break;
                 case "date_desc":
-                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.EndDate);
+                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.Price);
                     break;
                 default:
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.Name);

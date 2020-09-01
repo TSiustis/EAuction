@@ -30,12 +30,11 @@
                     Best Match
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" asp-page="./List" asp-route-sortOrder="@Model.NameSort">
-                        Lowest Prices
-                    </a>
+                    <a class="dropdown-item" asp-page="/Auctions/List" asp-route-sortOrder="@Model.NameSort"    asp-route-currentFilter="@Model.CurrentFilter">Date</a>
                     <a class="dropdown-item" href="#">Highest Price</a>
-                    <a class="dropdown-item" asp-page="./List" asp-route-sortOrder="@Model.DateSort">
-                        Newest</a>
+                    <a class="dropdown-item" asp-page="/Auctions/List" asp-route-sortOrder="@Model.DateSort"    asp-route-currentFilter="@Model.CurrentFilter">
+                        Newest
+                    </a>
                 </div>
             </li>
 
@@ -67,3 +66,29 @@
 
     }
 </div>
+
+@{
+    var prevDisabled = !Model.Auctions.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Auctions.HasNextPage ? "disabled" : "";
+
+    if (!prevDisabled.Equals("disabled"))
+    {
+        <a asp-page="./Index"
+           asp-route-sortOrder="@Model.CurrentSort"
+           asp-route-pageIndex="@(Model.Auctions.PageIndex - 1)"
+           asp-route-currentFilter="@Model.CurrentFilter"
+           class="btn btn-primary @prevDisabled">
+            Previous
+        </a>
+    }
+    if (!nextDisabled.Equals("disabled"))
+    {
+    <a asp-page="./Index"
+       asp-route-sortOrder="@Model.CurrentSort"
+       asp-route-pageIndex="@(Model.Auctions.PageIndex + 1)"
+       asp-route-currentFilter="@Model.CurrentFilter"
+       class="btn btn-primary @nextDisabled">
+        Next
+    </a>
+        }
+    }

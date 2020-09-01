@@ -10,56 +10,62 @@
 <h4>Auction</h4>
 <hr />
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
             <div class="form-group">
                 <label asp-for="Auction.Name" class="control-label"></label>
                 <input asp-for="Auction.Name" class="form-control" />
                 <span asp-validation-for="Auction.Name" class="text-danger"></span>
+
             </div>
-            <div class="form-group">
-                <label asp-for="Auction.Winner" class="control-label"></label>
-                <input asp-for="Auction.Winner" class="form-control" />
-                <span asp-validation-for="Auction.Winner" class="text-danger"></span>
-            </div>
+            @*<div class="form-group">
+            <label asp-for="Auction.Winner" class="control-label"></label>
+            <input asp-for="Auction.Winner" class="form-control" />
+            <span asp-validation-for="Auction.Winner" class="text-danger"></span>
+        </div>*@
+        <div class="form-group">
+            <label asp-for="Auction.UrlImage" class="control-label"></label>
+            @*<input asp-for="Auction.UrlImage" class="form-control" />*@
+
+            <input type="file" name="file" multiple="multiple" />
+            <span asp-validation-for="Auction.UrlImage" class="text-danger"></span>
+        </div>
             <div class="form-group">
                 <label asp-for="Auction.Details" class="control-label"></label>
-                <input asp-for="Auction.Details" class="form-control" />
+                <textarea asp-for="Auction.Details" class="form-control" ></textarea>
                 <span asp-validation-for="Auction.Details" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Auction.UrlImage" class="control-label"></label>
-                <input asp-for="Auction.UrlImage" class="form-control" />
-                <span asp-validation-for="Auction.UrlImage" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <label asp-for="Auction.Price" class="control-label"></label>
                 <input asp-for="Auction.Price" class="form-control" />
                 <span asp-validation-for="Auction.Price" class="text-danger"></span>
             </div>
-            <div class="form-group">
-                <label asp-for="Auction.StartDate" class="control-label"></label>
-                <input asp-for="Auction.StartDate" class="form-control" />
-                <span asp-validation-for="Auction.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Auction.EndDate" class="control-label"></label>
-                <input asp-for="Auction.EndDate" class="form-control" />
-                <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
+            <div class="form-row">
+                <div class="form-group">
+                    <label asp-for="Auction.StartDate" class="control-label"></label>
+                    <input asp-for="Auction.StartDate" class="form-control" />
+                    <span asp-validation-for="Auction.StartDate" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Auction.EndDate" class="control-label"></label>
+                    <input asp-for="Auction.EndDate" class="form-control" />
+                    <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
+                </div>
             </div>
             <div class="form-group">
                 <label asp-for="Auction.Country"></label>
-                <select multiple class="form-control" asp-for="SelectedValue"
+                <select multiple class="form-control" asp-for="SelectedValue" name="selectedValue"
                         asp-items="Model.Countries"></select>
                 <span class="text-danger" asp-validation-for="Auction.Country"></span>
             </div>
             @*<div class="form-group">
-                <label asp-for="Auction.Country"></label>
-                <select multiple class="form-control" asp-for="Auction.Country"
-                        asp-items="Model.Countries2"></select>
-                <span class="text-danger" asp-validation-for="Auction.Country"></span>
-            </div>*@
+            <label asp-for="Auction.Country"></label>
+            <select multiple class="form-control" asp-for="Auction.Country"
+                    asp-items="Model.Countries2"></select>
+            <span class="text-danger" asp-validation-for="Auction.Country"></span>
+        </div>*@
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />
             </div>

@@ -36,7 +36,7 @@ namespace tf_with.Pages.Auctions
 
         // To protect from overposting attacks, enable the specific properties you want to bind to, for
         // more details, see https://aka.ms/RazorPagesCRUD.
-        public async Task<IActionResult> OnPostAsync()
+        public async Task<IActionResult> OnPostAsync(string selectedValue)
         {
             if (!ModelState.IsValid)
             {           
@@ -44,12 +44,12 @@ namespace tf_with.Pages.Auctions
                 Countries = htmlHelper.GetEnumSelectList<Country>();
                 return Page();
             }
-            string result = Enum.GetName(typeof(SimpleCategory), SelectedValue);
+            string result = Enum.GetName(typeof(SimpleCategory), Int32.Parse(selectedValue));
 
             _context.Auctions.Add(Auction);
             await _context.SaveChangesAsync();
 
-            return RedirectToPage("./Index");
+            return RedirectToPage("./List");
         }
     }
 }
