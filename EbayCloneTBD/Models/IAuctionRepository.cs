@@ -7,12 +7,11 @@ namespace EbayCloneTBD.Models
 {
     public interface IAuctionRepository
     {
-        IEnumerable<Auction> GetAuctions();
+        List<Auction> GetAuctions();
         void CreateAction();
         Auction GetAuctionById(int id);
-        void Updattf_with();
-        void Delettf_withById();
-        IEnumerable<Auction> GetAuctions(string SearchString);
-        IEnumerable<Auction> SortAuctions(IEnumerable<Auction> auctions,string SortOrder);
+        void DeleteAuctionById();
+        List<Auction> GetAuctions(string SearchString);
+        List<Auction> SortAuctions(List<Auction> auctions, string SortOrder);
     }
 }

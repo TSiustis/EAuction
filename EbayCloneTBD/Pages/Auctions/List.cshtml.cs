@@ -18,7 +18,7 @@ namespace EbayCloneTBD.Pages.Auctions
         public string CurrentFilter { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
-        public IEnumerable<Auction> Auctions { get; set; }
+        public List<Auction> Auctions { get; set; }
         public ListModel(ApplicationDbContext context, IAuctionRepository auctionRepository)
         {
             _auctionRepository = auctionRepository;

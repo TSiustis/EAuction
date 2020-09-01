@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.EntityFrameworkCore;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -25,53 +26,53 @@ namespace EbayCloneTBD.Models
             throw new NotImplementedException();
         }
 
-        public void Delettf_withById()
-        {
-            throw new NotImplementedException();
-        }
 
         public Auction GetAuctionById(int id)
         {
             return Auctions.SingleOrDefault(a => a.Id == id);
         }
 
-        public IEnumerable<Auction> GetAuctions()
+        public List<Auction> GetAuctions()
         {
 
             return Auctions;
             
         }
 
-        public void Updattf_with()
+
+        public List<Auction> GetAuctions(string SearchString)
         {
-            throw new NotImplementedException();
+            return Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
         }
 
-        public IEnumerable<Auction> GetAuctions(string SearchString)
+        public  List<Auction> SortAuctions(List<Auction> auctions,string SortOrder)
         {
-            return Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
-        }
-
-        public IEnumerable<Auction> SortAuctions(IEnumerable<Auction> auctions,string SortOrder)
-        {
-           string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+            IEnumerable<Auction> auctionsIQ = from s in auctions
+                                             select s;
+            string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
            string  DateSort = SortOrder == "Date" ? "date_desc" : "Date";
             switch (SortOrder)
             {
                 case "name_desc":
-                    auctions = auctions.OrderByDescending(s => s.Name);
+                    auctionsIQ = auctionsIQ.OrderByDescending(s => s.Name);
                     break;
                 case "Date":
-                    auctions = auctions.OrderBy(s => s.EndDate);
+                    auctionsIQ = auctionsIQ.OrderBy(s => s.EndDate);
                     break;
                 case "date_desc":
-                    auctions = auctions.OrderByDescending(s => s.EndDate);
+                    auctionsIQ = auctionsIQ.OrderByDescending(s => s.EndDate);
                     break;
                 default:
-                    auctions = auctions.OrderBy(s => s.Name);
+                    auctionsIQ = auctionsIQ.OrderBy(s => s.Name);
                     break;
             }
+            auctions =  auctionsIQ.ToList();
             return auctions;
+        }
+
+        public void DeleteAuctionById()
+        {
+            throw new NotImplementedException();
         }
     }
 }
