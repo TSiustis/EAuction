@@ -1,4 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using EAuction.Models;
+using EbayCloneTBD.Pages.Auctions;
+using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,17 +11,18 @@ namespace EbayCloneTBD.Models
     public class MockAuctionRepository : IAuctionRepository
     {
 
-        public List<Auction> Auctions { get; set; }
+        public PaginatedList<Auction> Auctions { get; set; }
         public MockAuctionRepository()
         {
-            Auctions = new List<Auction>()
-            {
-                new Auction{Id = 1, Name = "Ps4 Game" , Details = "PS4 Game in very good condition", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 30},
-                new Auction{Id = 2, Name = "Rare Coin" , Details = "4th Century Coin ", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 300},
-                new Auction{Id = 3, Name = "Authentic Sword 16th Century" , Details = "Authentic Sword from 16th Century Bavaria", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 2999}
+            //IEnumerable<Auction> _auctions =
+            //Auctions.AddRange(new List<Auction>  {
+            //    new Auction{Id = 1, Name = "Ps4 Game" , Details = "PS4 Game in very good condition", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 30},
+            //    new Auction{Id = 2, Name = "Rare Coin" , Details = "4th Century Coin ", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 300},
+            //    new Auction{Id = 3, Name = "Authentic Sword 16th Century" , Details = "Authentic Sword from 16th Century Bavaria", StartDate = new DateTime(2020,8,29), EndDate = new DateTime(2020,9,3), Price = 2999}
 
 
-            };
+            //});
+       
         }
         public void CreateAction()
         {
@@ -32,45 +35,26 @@ namespace EbayCloneTBD.Models
             return Auctions.SingleOrDefault(a => a.Id == id);
         }
 
-        public List<Auction> GetAuctions()
-        {
+       
+    
 
-            return Auctions;
-            
+
+        IQueryable<Auction> IAuctionRepository.GetAuctions()
+        {
+            throw new NotImplementedException();
         }
 
-
-        public List<Auction> GetAuctions(string SearchString)
+        public void CreateAction(Auction auction)
         {
-            return Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0).ToList();
+            throw new NotImplementedException();
         }
 
-        public  List<Auction> SortAuctions(List<Auction> auctions,string SortOrder)
+        public void DeleteAuctionById(Auction Auction)
         {
-            IEnumerable<Auction> auctionsIQ = from s in auctions
-                                             select s;
-            string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
-           string  DateSort = SortOrder == "Date" ? "date_desc" : "Date";
-            switch (SortOrder)
-            {
-                case "name_desc":
-                    auctionsIQ = auctionsIQ.OrderByDescending(s => s.Name);
-                    break;
-                case "Date":
-                    auctionsIQ = auctionsIQ.OrderBy(s => s.EndDate);
-                    break;
-                case "date_desc":
-                    auctionsIQ = auctionsIQ.OrderByDescending(s => s.EndDate);
-                    break;
-                default:
-                    auctionsIQ = auctionsIQ.OrderBy(s => s.Name);
-                    break;
-            }
-            auctions =  auctionsIQ.ToList();
-            return auctions;
+            throw new NotImplementedException();
         }
 
-        public void DeleteAuctionById()
+        IQueryable<Auction> IAuctionRepository.GetAuctions(string SearchString)
         {
             throw new NotImplementedException();
         }

@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EbayCloneTBD.Data;
 using EbayCloneTBD.Models;
+using EAuction.Models;
 
 namespace EbayCloneTBD.Pages.Auctions
 {
@@ -18,7 +19,7 @@ namespace EbayCloneTBD.Pages.Auctions
         public string CurrentFilter { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
-        public List<Auction> Auctions { get; set; }
+        public PaginatedList<Auction> Auctions { get; set; }
         public ListModel(ApplicationDbContext context, IAuctionRepository auctionRepository)
         {
             _auctionRepository = auctionRepository;
@@ -28,17 +29,46 @@ namespace EbayCloneTBD.Pages.Auctions
         public string NameSort { get; set; }
         public string DateSort { get; set; }
         public string CurrentSort { get; set; }
+        public IQueryable<Auction> AuctionsIQ { get; private set; }
 
-        public async Task OnGetAsync(string SearchString,string SortOrder)
+        public async Task OnGetAsync(string SortOrder,
+            string currentFilter, string SearchString, int? pageIndex)
         {
 
-            Auctions = _auctionRepository.GetAuctions();
-            CurrentFilter = SearchString;
-            if(!string.IsNullOrEmpty(SearchString))
+            AuctionsIQ = _auctionRepository.GetAuctions();
+            if (SearchString != null)
             {
-                Auctions = _auctionRepository.GetAuctions(SearchString);
+                pageIndex = 1;
             }
-            Auctions = _auctionRepository.SortAuctions(Auctions, SortOrder);
+            else
+            {
+                SearchString = currentFilter;
+            }
+            if (!string.IsNullOrEmpty(SearchString))
+            {
+                AuctionsIQ = _auctionRepository.GetAuctions(SearchString);
+            }
+            string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+            string DateSort = SortOrder == "Date" ? "date_desc" : "Date";
+            switch (SortOrder)
+            {
+                case "name_desc":
+                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.Name);
+                    break;
+                case "Date":
+                    AuctionsIQ = AuctionsIQ.OrderBy(s => s.EndDate);
+                    break;
+                case "date_desc":
+                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.EndDate);
+                    break;
+                default:
+                    AuctionsIQ = AuctionsIQ.OrderBy(s => s.Name);
+                    break;
+            }
+            int pageSize = AuctionsIQ.Count();
+
+            Auctions =  await PaginatedList<Auction>.CreateAsync(
+                AuctionsIQ, pageIndex ?? 1, pageSize);
         }
     }
 }

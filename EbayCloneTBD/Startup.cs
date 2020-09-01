@@ -13,6 +13,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EbayCloneTBD.Models;
+using EAuction.Models;
 
 namespace EbayCloneTBD
 {
@@ -31,7 +32,9 @@ namespace EbayCloneTBD
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddTransient<IAuctionRepository, MockAuctionRepository>()  ;
+
+
+            services.AddTransient<IAuctionRepository, AuctionRepository>()  ;
             services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddRazorPages();
@@ -64,6 +67,7 @@ namespace EbayCloneTBD
             {
                 endpoints.MapRazorPages();
             });
+            SeedData.Seed(app);
         }
     }
 }
