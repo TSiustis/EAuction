@@ -2,11 +2,9 @@
 
 namespace EbayCloneTBD.Models
 {
-    public class Category
+    public enum Category
     {
-        public int Id { get; set; }
-        public enum Antiques
-        {
+
             [Display(Name="Antique Clocks")]
             Clocks,
             [Display(Name ="Antique Furniture")]
@@ -28,21 +26,16 @@ namespace EbayCloneTBD.Models
             Other,
             Science,
             Silver,
-            Woodenware
-        }
-        public enum Art
-        {
+            Woodenware,
+
             Drawings,
             Photographs,
             Posters,
             Print,
             Scultpures,
             [Display(Name = "Other Art")]
-            Other,
-            Paintings
-        }
-        public enum Books
-        {
+            OtherArt,
+            Paintings,
             Accessories,
             [Display(Name = "Audio Books")]
             Audio,
@@ -54,20 +47,14 @@ namespace EbayCloneTBD.Models
             [Display(Name = "Non-fiction")]
             NonFiction,
             [Display(Name = "Other Books")]
-            Other
-            }
-        public enum Cameras
-        {
+            OtherBooks,
             Camcorders,
             [Display(Name = "Digital Cameras")]
             Digital,
             [Display(Name = "Film Photography")]
             Film,
             [Display(Name = "Other Photography")]
-            Other
-        }
-        public enum Vehicles
-        {
+            OtherCameras,
             [Display(Name = "Aircraft &amp; Aviation")]
             Aircraft,
             [Display(Name = "Boats &amp; Watercraft")]
@@ -77,41 +64,25 @@ namespace EbayCloneTBD.Models
             Military,
             Motorcycles,
             [Display(Name = "Other Vehicles")]
-            Other
-        }
-
-        public enum Clothes
-        {
+            OtherVehicles,
             Baby,
             Kids,
             Men,
-            Women
-        }
-        public enum Shoes
-        {
-            Baby,
-            Kids,
-            Men,
-            Women
-        }
-        public enum Accessories
-        {
-            Baby,
-            Kids,
-            Men,
-            Women
-        }
-        public enum Dvds
-        {
+            Women,
+            BabyShoes,
+            KidsShoes,
+            MenShoes,
+            WomenShoes,
+            BabyAccessories,
+             KidsAccessories,
+            MenAccessories,
+            WomenAccessories,
             [Display(Name = "DVDs &amp; Blu-rays")]
             Dvd,
             LaserDiscs,
-            Other,
+            OtherDvd,
             Storage,
-            VHS
-        }
-        public enum Health
-        {
+            VHS,
             [Display(Name = "Bath &amp; Body")]
             Bath,
             [Display(Name = "E-Cigarettes &amp; Vapes")]
@@ -125,23 +96,17 @@ namespace EbayCloneTBD.Models
             [Display(Name = "Oral Care")]
             Oral,
             [Display(Name = "Other Health &amp; Beauty")]
-            Other,
+            OtherHealth,
             [Display(Name = "Salon &amp; Spa")]
             Salon,
             [Display(Name = "Vision Care")]
-            Vision
-        }
-        public enum Music
-        {
+            Vision,
             CDs,
             Cassettes,
             [Display(Name = "Other Formats")]
-            Other,
+            OtherMusic,
             Records,
-            Storage
-        }
-        public enum Sporting
-        {
+            StorageMusic,
             [Display(Name = "American Football")]
             American,
             Archery,
@@ -166,10 +131,7 @@ namespace EbayCloneTBD.Models
             Skateboarding,
             Surfing,
             Swimming,
-            Tennis
-        }
-        public enum Toys
-        {
+            Tennis,
             [Display(Name = "Action Figures")]
             Action,
             Beanies,
@@ -181,22 +143,18 @@ namespace EbayCloneTBD.Models
             [Display(Name = "Jigsaw &amp; Puzzles")]
             Jigsawy,
             [Display(Name = "Other Toys &amp; Games")]
-            Other,
+            OtherSports,
             [Display(Name = "Toy Soldiers")]
-            Soldiers
-
-        }
-        public enum VideoGames
-        {
+            Soldiers,
             [Display(Name = "Video Game Acessories")]
-            Accessories,
+            AccessoriesVideoGames,
             [Display(Name = "Video Game Consoles")]
             Consoles,
             [Display(Name = "Video Game Merchandise")]
             Merchandise,
             [Display(Name = "Video Games")]
             Video
-        }
+        
 
     }
 }

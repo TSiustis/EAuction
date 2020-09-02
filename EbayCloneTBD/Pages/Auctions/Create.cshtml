@@ -14,7 +14,7 @@
         <form method="post">
             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
-            <div class="form-group">
+            <div class="form-group col-md-8">
                 <label asp-for="Auction.Name" class="control-label"></label>
                 <input asp-for="Auction.Name" class="form-control" />
                 <span asp-validation-for="Auction.Name" class="text-danger"></span>
@@ -37,7 +37,7 @@
                 <textarea asp-for="Auction.Details" class="form-control" ></textarea>
                 <span asp-validation-for="Auction.Details" class="text-danger"></span>
             </div>
-            <div class="form-group">
+            <div class="form-group col-md-2">
                 <label asp-for="Auction.Price" class="control-label"></label>
                 <input asp-for="Auction.Price" class="form-control" />
                 <span asp-validation-for="Auction.Price" class="text-danger"></span>
