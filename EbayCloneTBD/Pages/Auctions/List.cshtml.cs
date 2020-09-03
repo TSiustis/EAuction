@@ -34,7 +34,7 @@ namespace EbayCloneTBD.Pages.Auctions
         public async Task OnGetAsync(string SortOrder,
             string currentFilter, string SearchString, int? pageIndex)
         {
-
+            CurrentSort = SortOrder;
             AuctionsIQ = _auctionRepository.GetAuctions();
             if (SearchString != null)
             {
@@ -48,17 +48,20 @@ namespace EbayCloneTBD.Pages.Auctions
             {
                 AuctionsIQ = _auctionRepository.GetAuctions(SearchString);
             }
-            string NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
-            string DateSort = SortOrder == "Date" ? "date_desc" : "Date";
+           NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+           DateSort = SortOrder == "Date" ? "date_desc" : "Date";
             switch (SortOrder)
             {
-                case "name_desc":
-                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.Name);
-                    break;
-                case "Date":
+                case "date_asc":
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.EndDate);
                     break;
                 case "date_desc":
+                    AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.EndDate);
+                    break;
+                case "price_asc":
+                    AuctionsIQ = AuctionsIQ.OrderBy(s => s.Price);
+                    break;
+                case "price_desc":
                     AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.Price);
                     break;
                 default:

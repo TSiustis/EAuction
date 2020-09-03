@@ -27,14 +27,14 @@
         <ul class="navbar-nav ml-auto">
             <li class="nav-item dropdown">
                 <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    Best Match
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-                    <a class="dropdown-item" asp-page="/Auctions/List" asp-route-sortOrder="@Model.NameSort"    asp-route-currentFilter="@Model.CurrentFilter">Date</a>
-                    <a class="dropdown-item" href="#">Highest Price</a>
-                    <a class="dropdown-item" asp-page="/Auctions/List" asp-route-sortOrder="@Model.DateSort"    asp-route-currentFilter="@Model.CurrentFilter">
-                        Newest
-                    </a>
+
+                    <a class="dropdown-item" asp-page="./List" asp-route-currentFilter="@Model.CurrentFilter">Best Match</a>
+                    <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_asc" asp-route-currentFilter="@Model.CurrentFilter">Ending First</a>
+                    <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_desc" asp-route-currentFilter="@Model.CurrentFilter">Ending Last</a>
+                    <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_asc" asp-route-currentFilter="@Model.CurrentFilter"> Lowest Price </a>
+                    <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_desc" asp-route-currentFilter="@Model.CurrentFilter"> Highest Price </a>
                 </div>
             </li>
 
@@ -73,8 +73,8 @@
 
     if (!prevDisabled.Equals("disabled"))
     {
-        <a asp-page="./Index"
-           asp-route-sortOrder="@Model.CurrentSort"
+        <a asp-page="./List"
+           asp-route-SortOrder="@Model.CurrentSort"
            asp-route-pageIndex="@(Model.Auctions.PageIndex - 1)"
            asp-route-currentFilter="@Model.CurrentFilter"
            class="btn btn-primary @prevDisabled">
@@ -83,8 +83,8 @@
     }
     if (!nextDisabled.Equals("disabled"))
     {
-    <a asp-page="./Index"
-       asp-route-sortOrder="@Model.CurrentSort"
+    <a asp-page="./List"
+       asp-route-SortOrder="@Model.CurrentSort"
        asp-route-pageIndex="@(Model.Auctions.PageIndex + 1)"
        asp-route-currentFilter="@Model.CurrentFilter"
        class="btn btn-primary @nextDisabled">
