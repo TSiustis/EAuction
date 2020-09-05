@@ -23,6 +23,7 @@ namespace EbayCloneTBD.Pages.Auctions
         public ListModel(ApplicationDbContext context, IAuctionRepository auctionRepository)
         {
             _auctionRepository = auctionRepository;
+          
             _context = context;
         }
 

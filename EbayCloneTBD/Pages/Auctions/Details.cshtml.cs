@@ -22,6 +22,7 @@ namespace tf_with.Pages.Auctions
 
         }
         public Auction Auction { get; set; }
+        public User User{get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
             if (id == null)

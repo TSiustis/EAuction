@@ -6,23 +6,35 @@
 
 
 <div>
-    <a asp-page="Index">Back to Search Results</a>
+    <a asp-page="List">Back to Search Results</a>
 </div>
 <div class="container-fluid">
     <div class="row h-50 border">
         <div class="col border">
-            <img alt="@Model.Auction.Name" src="@Model.Auction.UrlImage">
+            @*<img alt="@Model.Auction.Name" src="@Model.Auction.UrlImage">*@
         </div>
         <div class="col border">
             <div class="caption-full">
-                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3>
                 <h3>
                     <a href="#">@Model.Auction.Name</a>
                 </h3>
+                <p>Condition @Model.Auction.Condition </p>
+                <p>Time left: @Model.Auction.EndDate</p>
+                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href ="/ViewBids">Count Bids</a>
+                <form asp-action="Bid" method="post">
+                    <div class="form-group">
+                        <input type="text" class ="form-control" placeholder="Enter your bid" />
+                    </div>
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary btn-lg">Bid</button>
+                    </div>
+                </form>
             </div>
         </div>
         <div class="col border">
             Seller information
+            <h4><a href = "#">@Model.User?.NickName</a></h4>
+            <h5>@Model.User?.Feedback % Positive Feedback </h5>
         </div>
     </div>
     <div class="description row h-50">

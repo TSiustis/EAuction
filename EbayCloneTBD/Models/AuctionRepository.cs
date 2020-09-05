@@ -13,6 +13,7 @@ namespace EAuction.Models
         private readonly ApplicationDbContext _context;
         public AuctionRepository(ApplicationDbContext context)
         {
+            
             _context = context;
 
         }
