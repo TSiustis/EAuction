@@ -66,6 +66,7 @@ namespace EbayCloneTBD
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapRazorPages();
+                endpoints.MapControllers();
             });
             SeedData.Seed(app);
         }

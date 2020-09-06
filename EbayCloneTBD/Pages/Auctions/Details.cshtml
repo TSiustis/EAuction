@@ -19,7 +19,7 @@
                     <a href="#">@Model.Auction.Name</a>
                 </h3>
                 <p>Condition @Model.Auction.Condition </p>
-                <p>Time left: @Model.Auction.EndDate</p>
+                <p>Time left:<span id="timeLeft">@Model.TimeLeft</span></p>
                 <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href ="/ViewBids">Count Bids</a>
                 <form asp-action="Bid" method="post">
                     <div class="form-group">
@@ -41,3 +41,73 @@
         <p>@Model.Auction.Details</p>
     </div>
 </div>
+@section scripts{ 
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        };
+        $(function () {
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/Auctions/' + getUrlParameter('id') + '',
+                dataType: 'json',
+
+                success: function (jsonData) {
+                    if (jsonData == null) {
+                        alert('no data returned');
+
+                        return;
+                    }
+                    var endDate = new Date(jsonData.endDate);
+                    var _second = 1000;
+                    var _minute = _second * 60;
+                    var _hour = _minute * 60;
+                    var _day = _hour * 24;
+                    var timer;
+
+                    function showRemaining() {
+                        var currentDate = new Date();
+                        var timeLeft = endDate - currentDate;
+                        if (timeLeft < 0) {
+
+                            clearInterval(timer);
+                            document.getElementById('timeLeft').innerHTML = 'EXPIRED!';
+
+                            return;
+                        }
+                        var days = Math.floor(timeLeft / _day);
+                        var hours = Math.floor((timeLeft % _day) / _hour);
+                        var minutes = Math.floor((timeLeft % _hour) / _minute);
+                        var seconds = Math.floor((timeLeft % _minute) / _second);
+
+                        document.getElementById('timeLeft').innerHTML = days + ' days ';
+                        document.getElementById('timeLeft').innerHTML += hours + ' hrs ';
+                        document.getElementById('timeLeft').innerHTML += minutes + ' mins ';
+                        document.getElementById('timeLeft').innerHTML += seconds + ' secs';
+                    }
+
+                    timer = setInterval(showRemaining, 1000);
+                },
+                error: function (ex) {
+
+                    alert(ex);
+                }
+            
+            });
+            return false;
+
+        });
+    </script>
+}

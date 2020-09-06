@@ -21,6 +21,7 @@ namespace tf_with.Pages.Auctions
             _auctionRepository = auctionRepository;
 
         }
+        public TimeSpan TimeLeft { get; set; }
         public Auction Auction { get; set; }
         public User User{get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -29,8 +30,11 @@ namespace tf_with.Pages.Auctions
                 return NotFound();
             int Id = (int)id;
             Auction =  _auctionRepository.GetAuctionById(Id);
+
             if (Auction == null)
                 return NotFound();
+            TimeLeft = Auction.EndDate - Auction.StartDate;
+
             return Page();
 
 

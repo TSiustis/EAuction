@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EbayCloneTBD.Models
 {
-    public class Auction : IValidatableObject
+    public class Auction
     {
 
         public List<Bid> Bids { get; set; }
@@ -32,21 +32,13 @@ namespace EbayCloneTBD.Models
         public string UrlImage { get; set; }
         [Required]
         public double Price { get; set; }
-        public TimeSpan TimeLeft { get; set; }
-        [Required]
         public DateTime StartDate { get; set; }
         [Required]
         public DateTime EndDate { get; set; }
         [Required]
         public Country Country { get; set; }
         public Condition Condition { get; set; }
-        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
-        {
-            if (EndDate < StartDate)
-            {
-                yield return new ValidationResult("EndDate must be greater than StartDate");
-            }
-        }
+      
 
        
     }

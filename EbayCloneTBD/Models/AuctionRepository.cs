@@ -19,6 +19,7 @@ namespace EAuction.Models
         }
         public void CreateAction(Auction auction)
         {
+            auction.StartDate = DateTime.UtcNow;
             _context.Add(auction);
             _context.SaveChanges();
         }
