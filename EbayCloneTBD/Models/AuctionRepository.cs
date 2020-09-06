@@ -41,7 +41,14 @@ namespace EAuction.Models
 
         public IQueryable<Auction> GetAuctions(string SearchString)
         {
-            return _context.Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+            return  _context.Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+        }
+        public Auction Update(Auction updatedAuction)
+        {
+            
+            var entity = _context.Auctions.Attach(updatedAuction);
+            entity.State = EntityState.Modified;
+            return updatedAuction;
         }
     }
 }

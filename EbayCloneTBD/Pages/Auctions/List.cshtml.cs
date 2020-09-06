@@ -36,7 +36,7 @@ namespace EbayCloneTBD.Pages.Auctions
             string currentFilter, string SearchString, int? pageIndex)
         {
             CurrentSort = SortOrder;
-            AuctionsIQ = _auctionRepository.GetAuctions();
+            AuctionsIQ =  _auctionRepository.GetAuctions();
             if (SearchString != null)
             {
                 pageIndex = 1;
@@ -47,7 +47,7 @@ namespace EbayCloneTBD.Pages.Auctions
             }
             if (!string.IsNullOrEmpty(SearchString))
             {
-                AuctionsIQ = _auctionRepository.GetAuctions(SearchString);
+                AuctionsIQ =  _auctionRepository.GetAuctions(SearchString);
             }
            NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
            DateSort = SortOrder == "Date" ? "date_desc" : "Date";

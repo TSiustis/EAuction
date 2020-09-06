@@ -22,6 +22,7 @@ namespace tf_with.Pages.Auctions
 
         }
         public TimeSpan TimeLeft { get; set; }
+        [BindProperty]
         public Auction Auction { get; set; }
         public User User{get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
@@ -35,7 +36,7 @@ namespace tf_with.Pages.Auctions
                 return NotFound();
             TimeLeft = Auction.EndDate - Auction.StartDate;
 
-            return Page();
+            return  Page();
 
 
 
