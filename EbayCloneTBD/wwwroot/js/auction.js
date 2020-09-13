@@ -2,30 +2,26 @@
 
 var connection = new signalR.HubConnectionBuilder().withUrl("/auctionhub").build();
 
-//Disable send button until connection is established
-document.getElementById("sendButton").disabled = true;
 
-connection.on("ReceiveMessage", function (user, message) {
-    var msg = message.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-    var encodedMsg = user + " says " + msg;
-    var li = document.createElement("li");
-    li.textContent = encodedMsg;
-    document.getElementById("messagesList").appendChild(li);
-    console.log("Received");
-});
 
-connection.start().then(function () {
-    document.getElementById("sendButton").disabled = false;
-}).catch(function (err) {
-    return console.error(err.toString());
-});
 
-document.getElementById("sendButton").addEventListener("click", function (event) {
-    var user = document.getElementById("userInput").value;
-    var message = document.getElementById("messageInput").value;
-    connection.invoke("SendMessage", user, message).catch(function (err) {
-        return console.error(err.toString());
-    });
-    console.log("Clicked");
-    event.preventDefault();
-});
+    connection.on("ReceiveOrderUpdate", function() {
+        //const statusDiv = document.getElementById("status");
+        //statusDiv.innerHTML = update;
+        alert('received!');
+    }
+    );
+
+    connection.on("NewOrder", function (order) {
+        var statusDiv = document.getElementById("status");
+        statusDiv.innerHTML = "Someone ordered an " + order.product;
+    }
+    );
+
+    connection.on("finished", function () {
+        connection.stop();
+    }
+    );
+
+    connection.start()
+        .catch(err => console.error(err.toString()));

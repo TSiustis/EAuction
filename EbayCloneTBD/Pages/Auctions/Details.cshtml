@@ -20,16 +20,22 @@
                 </h3>
                 <p>Condition @Model.Auction.Condition </p>
                 <p>Time left:<span id="timeLeft">@Model.TimeLeft</span></p>
-                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href ="/ViewBids">Count Bids</a>
-                <form asp-action="Bid" method="post">
-                    <div class="form-group">
-                        <input type="text" class ="form-control" placeholder="Enter your bid" />
-                    </div>
-                    <div class="form-group">
-                        <button type="submit" class="btn btn-primary btn-lg">Bid</button>
-                    </div>
-                    <a href ="#"  id="sendButton">Test</a>
-                </form>
+                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href="/ViewBids">Count Bids</a>
+               
+                @if (@Model.Auction.Winner.Id!= null) {
+                Winner: @Html.Raw(@Model.Auction.Winner.NickName);
+                }
+                @if (@Model.TimeLeft.TotalSeconds > 0|| @Model.Auction.Winner!= null)
+                {
+                    <form asp-action="Bid" method="post">
+                        <div class="form-group">
+                            <input type="text" class="form-control"  id = "bidInput" placeholder="Enter your bid" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="submitBid" class="btn btn-primary btn-lg">Bid</button>
+                        </div>
+                    </form>
+                }
             </div>
         </div>
         <div class="col border">
@@ -85,7 +91,11 @@
 
                             clearInterval(timer);
                             document.getElementById('timeLeft').innerHTML = 'EXPIRED!';
-
+                            $('#bidInput').prop("hidden", true);
+                            $('#submitBid').prop('hidden', true);
+                            var id = getUrlParameter('id');
+                            alert('invoking!');
+                            connection.invoke("GetUpdateForOrder", id);
                             return;
                         }
                         var days = Math.floor(timeLeft / _day);
@@ -97,9 +107,9 @@
                         document.getElementById('timeLeft').innerHTML += hours + ' hrs ';
                         document.getElementById('timeLeft').innerHTML += minutes + ' mins ';
                         document.getElementById('timeLeft').innerHTML += seconds + ' secs';
-                    }
 
-                    timer = setInterval(showRemaining, 1000);
+        }
+                    timer = setInterval(showRemaining, 100);
                 },
                 error: function (ex) {
 

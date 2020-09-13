@@ -63,5 +63,10 @@ namespace EbayCloneTBD.Models
         {
             throw new NotImplementedException();
         }
+
+        public Auction Update(int Id)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

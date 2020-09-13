@@ -19,11 +19,11 @@
                 <span asp-validation-for="Auction.Name" class="text-danger"></span>
             </div>
             <input type="hidden" asp-for="Auction.Id" />
-            <div class="form-group">
+            @*<div class="form-group">
                 <label asp-for="Auction.Winner" class="control-label"></label>
                 <input asp-for="Auction.Winner" class="form-control" />
                 <span asp-validation-for="Auction.Winner" class="text-danger"></span>
-            </div>
+            </div>*@
             <div class="form-group">
                 <label asp-for="Auction.Details" class="control-label"></label>
                 <input asp-for="Auction.Details" class="form-control" />
@@ -40,11 +40,6 @@
                 <span asp-validation-for="Auction.Price" class="text-danger"></span>
             </div>
             <div class="form-group">
-                <label asp-for="Auction.StartDate" class="control-label"></label>
-                <input asp-for="Auction.StartDate" class="form-control" />
-                <span asp-validation-for="Auction.StartDate" class="text-danger"></span>
-            </div>
-            <div class="form-group">
                 <label asp-for="Auction.EndDate" class="control-label"></label>
                 <input asp-for="Auction.EndDate" class="form-control" />
                 <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
@@ -57,7 +52,7 @@
 </div>
 
 <div>
-    <a asp-page="./Index">Back to List</a>
+    <a asp-page="./List">Back to List</a>
 </div>
 
 @section Scripts {

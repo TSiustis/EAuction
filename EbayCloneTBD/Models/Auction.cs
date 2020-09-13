@@ -37,7 +37,9 @@ namespace EbayCloneTBD.Models
         public DateTime EndDate { get; set; }
         [Required]
         public Country Country { get; set; }
+        [Required]
         public Condition Condition { get; set; }
+
       
 
        

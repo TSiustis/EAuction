@@ -7,7 +7,6 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using EbayCloneTBD.Data;
 using EbayCloneTBD.Models;
-using tf_with.Models;
 using EAuction.Models;
 
 namespace tf_with.Pages.Auctions

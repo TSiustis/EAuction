@@ -14,5 +14,6 @@ namespace EbayCloneTBD.Models
         void DeleteAuctionById(Auction Auction);
         IQueryable<Auction> GetAuctions(string SearchString);
         Auction Update(Auction updatedRestaurant);
+        Auction Update(int Id);
     }
 }

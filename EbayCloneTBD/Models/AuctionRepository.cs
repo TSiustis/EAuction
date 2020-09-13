@@ -43,6 +43,19 @@ namespace EAuction.Models
         {
             return  _context.Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
         }
+
+        
+        public Auction Update(int Id)
+        {
+            User user = new User { NickName = "Johnny" };
+            var updatedAuction = _context.Auctions.FirstOrDefault(a => a.Id == Id);
+            _context.AuctionUser.Add(user);
+            updatedAuction.Winner = user;
+            var entity = _context.Auctions.Attach(updatedAuction);
+            entity.State = EntityState.Modified;
+            _context.SaveChanges();
+            return updatedAuction;
+        }
         public Auction Update(Auction updatedAuction)
         {
             
