@@ -22,7 +22,7 @@
                 <p>Time left:<span id="timeLeft">@Model.TimeLeft</span></p>
                 <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href="/ViewBids">Count Bids</a>
                
-                @if (@Model.Auction.Winner.Id!= null) {
+                @if (@Model.Auction.Winner!= null) {
                 Winner: @Html.Raw(@Model.Auction.Winner.NickName);
                 }
                 @if (@Model.TimeLeft.TotalSeconds > 0|| @Model.Auction.Winner!= null)
@@ -40,7 +40,7 @@
         </div>
         <div class="col border">
             Seller information
-            <h4><a href = "#">@Model.User?.NickName</a></h4>
+            <h4><a href = "#">@Model.Auction.Seller?.FirstName</a></h4>
             <h5>@Model.User?.Feedback % Positive Feedback </h5>
         </div>
     </div>

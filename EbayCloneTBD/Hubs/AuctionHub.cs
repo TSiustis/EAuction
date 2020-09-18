@@ -15,11 +15,11 @@ namespace EAuction.Hubs
         {
            _auctionRepository = auctionRepository;
         }
-        public async Task GetUpdateForOrder(string orderId)
+        public async Task GetUpdateForAuction(string Id)
         {
-            int id = Int32.Parse(orderId);
+            int id = Int32.Parse(Id);
             Auction auction;
-                auction = _auctionRepository.Update(id);
+                auction = _auctionRepository.EndAuction(id);
 
                 await Clients.Caller.SendAsync("ReceiveOrderUpdate",auction);
                 Thread.Sleep(1000);

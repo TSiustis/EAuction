@@ -4,16 +4,14 @@ using EbayCloneTBD.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace EbayCloneTBD.Data.Migrations
+namespace EAuction.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20200904182009_ChangedAuction")]
-    partial class ChangedAuction
+    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
     {
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -31,20 +29,29 @@ namespace EbayCloneTBD.Data.Migrations
                     b.Property<int>("Category")
                         .HasColumnType("int");
 
+                    b.Property<int>("Condition")
+                        .HasColumnType("int");
+
                     b.Property<int>("Country")
                         .HasColumnType("int");
 
                     b.Property<string>("Details")
-                        .HasColumnType("nvarchar(max)");
+                        .IsRequired()
+                        .HasColumnType("nvarchar(4000)")
+                        .HasMaxLength(4000);
 
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
+                        .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<double>("Price")
                         .HasColumnType("float");
+
+                    b.Property<string>("SellerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
@@ -52,10 +59,12 @@ namespace EbayCloneTBD.Data.Migrations
                     b.Property<string>("UrlImage")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int?>("WinnerId")
-                        .HasColumnType("int");
+                    b.Property<string>("WinnerId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("SellerId");
 
                     b.HasIndex("WinnerId");
 
@@ -75,8 +84,8 @@ namespace EbayCloneTBD.Data.Migrations
                     b.Property<int?>("AuctionId")
                         .HasColumnType("int");
 
-                    b.Property<int?>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("UserId")
+                        .HasColumnType("nvarchar(450)");
 
                     b.HasKey("Id");
 
@@ -85,39 +94,6 @@ namespace EbayCloneTBD.Data.Migrations
                     b.HasIndex("UserId");
 
                     b.ToTable("Bid");
-                });
-
-            modelBuilder.Entity("EbayCloneTBD.Models.User", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<string>("Address")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("City")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Country")
-                        .HasColumnType("int");
-
-                    b.Property<string>("Email")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("FirstName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("LastName")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("PostCode")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("AuctionUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -183,6 +159,10 @@ namespace EbayCloneTBD.Data.Migrations
                         .IsConcurrencyToken()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Discriminator")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("Email")
                         .HasColumnType("nvarchar(256)")
                         .HasMaxLength(256);
@@ -234,6 +214,8 @@ namespace EbayCloneTBD.Data.Migrations
                         .HasFilter("[NormalizedUserName] IS NOT NULL");
 
                     b.ToTable("AspNetUsers");
+
+                    b.HasDiscriminator<string>("Discriminator").HasValue("IdentityUser");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<string>", b =>
@@ -320,8 +302,43 @@ namespace EbayCloneTBD.Data.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("EbayCloneTBD.Models.User", b =>
+                {
+                    b.HasBaseType("Microsoft.AspNetCore.Identity.IdentityUser");
+
+                    b.Property<string>("Address")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("City")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("Country")
+                        .HasColumnType("int");
+
+                    b.Property<double>("Feedback")
+                        .HasColumnType("float");
+
+                    b.Property<string>("FirstName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("LastName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NickName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PostCode")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasDiscriminator().HasValue("User");
+                });
+
             modelBuilder.Entity("EbayCloneTBD.Models.Auction", b =>
                 {
+                    b.HasOne("EbayCloneTBD.Models.User", "Seller")
+                        .WithMany()
+                        .HasForeignKey("SellerId");
+
                     b.HasOne("EbayCloneTBD.Models.User", "Winner")
                         .WithMany()
                         .HasForeignKey("WinnerId");

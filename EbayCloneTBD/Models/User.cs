@@ -26,5 +26,7 @@ namespace EbayCloneTBD.Models
         [PersonalData]
         public string City { get; set; }
         public double Feedback { get; set; }
+
+        
     }
 }

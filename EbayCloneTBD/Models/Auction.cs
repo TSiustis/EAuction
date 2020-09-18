@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace EbayCloneTBD.Models
 {
-    public class Auction
+    public class Auction  : IValidatableObject
     {
 
         public List<Bid> Bids { get; set; }
@@ -39,9 +39,16 @@ namespace EbayCloneTBD.Models
         public Country Country { get; set; }
         [Required]
         public Condition Condition { get; set; }
+        public User Seller { get; set; }
+        IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
+        {
+            if (DateTime.Compare(EndDate, DateTime.UtcNow) < 0)
+            {
+                yield return new ValidationResult("The auction must end today or later!");
+            }
+        }
 
-      
 
-       
+
     }
 }

@@ -95,6 +95,8 @@ namespace EAuction.Areas.Identity.Pages.Account
 
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
+
+            Countries = htmlHelper.GetEnumSelectList<Country>();
             returnUrl = returnUrl ?? Url.Content("~/");
             ExternalLogins = (await _signInManager.GetExternalAuthenticationSchemesAsync()).ToList();
             if (ModelState.IsValid)

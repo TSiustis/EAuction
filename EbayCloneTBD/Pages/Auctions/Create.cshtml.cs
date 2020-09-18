@@ -8,12 +8,17 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using EbayCloneTBD.Data;
 using EbayCloneTBD.Models;
 using EAuction.Models;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace tf_with.Pages.Auctions
 {
     public class CreateModel : PageModel
     {
         private readonly EbayCloneTBD.Data.ApplicationDbContext _context;
+        private readonly SignInManager<User> _signInManager;
+        private readonly UserManager<User> _userManager;
+        private readonly IAuctionRepository _auctionRepository;
         private readonly IHtmlHelper htmlHelper;
         public int SelectedValue;
         public CategoryViewModel CategoriesVM { get; set; }
@@ -21,8 +26,11 @@ namespace tf_with.Pages.Auctions
         public IEnumerable<string> Categories { get; set; }
         public IEnumerable<SelectListItem> Countries { get; set; }
         public List<SelectListItem> CategoriesList { get; set; }
-        public CreateModel(ApplicationDbContext context, IHtmlHelper htmlHelper)
+        public CreateModel(ApplicationDbContext context, IHtmlHelper htmlHelper,SignInManager<User> signInManager,IAuctionRepository auctionRepository, UserManager<User> userManager)
         {
+            _userManager = userManager;
+            _auctionRepository = auctionRepository;
+            _signInManager = signInManager;
             CategoriesVM = new CategoryViewModel();
             _context = context;
             this.htmlHelper = htmlHelper;
@@ -39,10 +47,12 @@ namespace tf_with.Pages.Auctions
         [BindProperty]
         public Auction Auction { get; set; }
 
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for
-        // more details, see https://aka.ms/RazorPagesCRUD.
         public async Task<IActionResult> OnPostAsync(string selectedValue)
         {
+            if (!HttpContext.User.Identity.IsAuthenticated)
+            {
+                return Redirect("/Identity/Account/Login");
+            }
             if (!ModelState.IsValid)
             {
                 Countries = htmlHelper.GetEnumSelectList<Country>();
@@ -50,9 +60,10 @@ namespace tf_with.Pages.Auctions
                 CategoriesList = CategoriesVM.Categories;
                 return Page();
             }
+            var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            Auction.Seller = user;
             Auction.Category = (Category)Enum.Parse(typeof(Category), Categories.First(), true);
-            _context.Auctions.Add(Auction);
-            await _context.SaveChangesAsync();
+            _auctionRepository.CreateAuction(Auction);
 
             return RedirectToPage("./List");
         }

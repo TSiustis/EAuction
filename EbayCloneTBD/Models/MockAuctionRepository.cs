@@ -24,11 +24,7 @@ namespace EbayCloneTBD.Models
             //});
        
         }
-        public void CreateAction()
-        {
-            throw new NotImplementedException();
-        }
-
+      
 
         public Auction GetAuctionById(int id)
         {
@@ -44,7 +40,7 @@ namespace EbayCloneTBD.Models
             throw new NotImplementedException();
         }
 
-        public void CreateAction(Auction auction)
+        public void CreateAuction(Auction auction)
         {
             throw new NotImplementedException();
         }
@@ -68,5 +64,21 @@ namespace EbayCloneTBD.Models
         {
             throw new NotImplementedException();
         }
+
+        public void CreateAction(Auction auction, User seller)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Auction Bid(int Id, double amount, User bidder)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Auction EndAuction(int Id)
+        {
+            throw new NotImplementedException();
+        }
+
     }
 }

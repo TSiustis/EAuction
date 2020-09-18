@@ -1,10 +1,9 @@
 ﻿using System;
-using Microsoft.EntityFrameworkCore.Metadata;
 using Microsoft.EntityFrameworkCore.Migrations;
 
-namespace EbayCloneTBD.Data.Migrations
+namespace EAuction.Migrations
 {
-    public partial class CreateIdentitySchema : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -40,7 +39,16 @@ namespace EbayCloneTBD.Data.Migrations
                     TwoFactorEnabled = table.Column<bool>(nullable: false),
                     LockoutEnd = table.Column<DateTimeOffset>(nullable: true),
                     LockoutEnabled = table.Column<bool>(nullable: false),
-                    AccessFailedCount = table.Column<int>(nullable: false)
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    Discriminator = table.Column<string>(nullable: false),
+                    FirstName = table.Column<string>(nullable: true),
+                    LastName = table.Column<string>(nullable: true),
+                    NickName = table.Column<string>(nullable: true),
+                    Address = table.Column<string>(nullable: true),
+                    PostCode = table.Column<string>(nullable: true),
+                    Country = table.Column<int>(nullable: true),
+                    City = table.Column<string>(nullable: true),
+                    Feedback = table.Column<double>(nullable: true)
                 },
                 constraints: table =>
                 {
@@ -52,7 +60,7 @@ namespace EbayCloneTBD.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     RoleId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -73,7 +81,7 @@ namespace EbayCloneTBD.Data.Migrations
                 columns: table => new
                 {
                     Id = table.Column<int>(nullable: false)
-                        .Annotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn),
+                        .Annotation("SqlServer:Identity", "1, 1"),
                     UserId = table.Column<string>(nullable: false),
                     ClaimType = table.Column<string>(nullable: true),
                     ClaimValue = table.Column<string>(nullable: true)
@@ -153,6 +161,68 @@ namespace EbayCloneTBD.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Auctions",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(nullable: false),
+                    Category = table.Column<int>(nullable: false),
+                    WinnerId = table.Column<string>(nullable: true),
+                    Details = table.Column<string>(maxLength: 4000, nullable: false),
+                    UrlImage = table.Column<string>(nullable: true),
+                    Price = table.Column<double>(nullable: false),
+                    StartDate = table.Column<DateTime>(nullable: false),
+                    EndDate = table.Column<DateTime>(nullable: false),
+                    Country = table.Column<int>(nullable: false),
+                    Condition = table.Column<int>(nullable: false),
+                    SellerId = table.Column<string>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Auctions", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Auctions_AspNetUsers_SellerId",
+                        column: x => x.SellerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Auctions_AspNetUsers_WinnerId",
+                        column: x => x.WinnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Bid",
+                columns: table => new
+                {
+                    Id = table.Column<int>(nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Amount = table.Column<double>(nullable: false),
+                    UserId = table.Column<string>(nullable: true),
+                    AuctionId = table.Column<int>(nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Bid", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Bid_Auctions_AuctionId",
+                        column: x => x.AuctionId,
+                        principalTable: "Auctions",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Bid_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -191,6 +261,26 @@ namespace EbayCloneTBD.Data.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auctions_SellerId",
+                table: "Auctions",
+                column: "SellerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Auctions_WinnerId",
+                table: "Auctions",
+                column: "WinnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bid_AuctionId",
+                table: "Bid",
+                column: "AuctionId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Bid_UserId",
+                table: "Bid",
+                column: "UserId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -211,7 +301,13 @@ namespace EbayCloneTBD.Data.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Bid");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "Auctions");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

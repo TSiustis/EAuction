@@ -17,9 +17,11 @@ namespace EAuction.Models
             _context = context;
 
         }
-        public void CreateAction(Auction auction)
+       
+        public void CreateAuction(Auction auction)
         {
             auction.StartDate = DateTime.UtcNow;
+            
             _context.Add(auction);
             _context.SaveChanges();
         }
@@ -45,12 +47,22 @@ namespace EAuction.Models
         }
 
         
-        public Auction Update(int Id)
+        public Auction Bid(int Id,double amount, User bidder)
         {
-            User user = new User { NickName = "Johnny" };
             var updatedAuction = _context.Auctions.FirstOrDefault(a => a.Id == Id);
-            _context.AuctionUser.Add(user);
-            updatedAuction.Winner = user;
+            _context.AuctionUser.Add(bidder);
+            updatedAuction.Bids.Add(new Bid { Amount = amount, User = bidder });
+            var entity = _context.Auctions.Attach(updatedAuction);
+            entity.State = EntityState.Modified;
+            _context.SaveChanges();
+            return updatedAuction;
+        }
+        public Auction EndAuction(int Id)
+        {
+            User Winner;
+            var updatedAuction = _context.Auctions.FirstOrDefault(a => a.Id == Id);
+            Winner = updatedAuction.Bids.OrderByDescending(bid => bid.Amount).FirstOrDefault().User;
+            updatedAuction.Winner = Winner;
             var entity = _context.Auctions.Attach(updatedAuction);
             entity.State = EntityState.Modified;
             _context.SaveChanges();
@@ -63,5 +75,6 @@ namespace EAuction.Models
             entity.State = EntityState.Modified;
             return updatedAuction;
         }
+
     }
 }

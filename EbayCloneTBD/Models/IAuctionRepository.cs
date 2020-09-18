@@ -8,12 +8,13 @@ namespace EbayCloneTBD.Models
 {
     public interface IAuctionRepository
     {
-       IQueryable<Auction >GetAuctions();
-        void CreateAction(Auction auction);
+       IQueryable<Auction> GetAuctions();
+        void CreateAuction(Auction auction);
         Auction GetAuctionById(int id);
         void DeleteAuctionById(Auction Auction);
         IQueryable<Auction> GetAuctions(string SearchString);
-        Auction Update(Auction updatedRestaurant);
-        Auction Update(int Id);
+        Auction Update(Auction updatedAuction);
+        Auction Bid(int Id, double amount, User bidder);
+        Auction EndAuction(int Id);
     }
 }
