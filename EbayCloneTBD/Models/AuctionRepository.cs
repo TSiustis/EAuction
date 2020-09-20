@@ -50,8 +50,8 @@ namespace EAuction.Models
         public Auction Bid(int Id,double amount, User bidder)
         {
             var updatedAuction = _context.Auctions.FirstOrDefault(a => a.Id == Id);
-            _context.AuctionUser.Add(bidder);
             updatedAuction.Bids.Add(new Bid { Amount = amount, User = bidder });
+            updatedAuction.Price = updatedAuction.Bids.Max(bid => bid.Amount);
             var entity = _context.Auctions.Attach(updatedAuction);
             entity.State = EntityState.Modified;
             _context.SaveChanges();
@@ -76,5 +76,9 @@ namespace EAuction.Models
             return updatedAuction;
         }
 
+        public IQueryable<Auction> FilterByCategory(string filterCategory)
+        {
+            return _context.Auctions.Where(a => a.Category == (Category)Enum.Parse(typeof(Category), filterCategory));
+        }
     }
 }

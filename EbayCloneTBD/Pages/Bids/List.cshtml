@@ -1,0 +1,19 @@
+﻿@page
+@model EAuction.Pages.Bids.IndexModel
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+    <h3>
+        <a asp-page="./Details" asp-route-id="@Model.Auction.Id">@Model.Auction.Name</a>
+        @foreach (var item in Model.Auction.Bids)
+        {
+
+            if (item != null)
+            {
+               <partial name="_Summary" model="item" />
+            }
+        }
+    </h3>
+

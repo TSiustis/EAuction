@@ -1,0 +1,26 @@
+﻿@model Bid
+
+    <div class="panel panel-default">
+        <div class="panel-body">
+            <span>Bidder: @Model.User</span>
+            <span>Amount: @Model.Amount</span>
+        </div>
+        <div class="panel-footer">
+            <a class="btn btn-lg"
+               asp-page="./Detail"
+               asp-route-Id="@Model.Id">
+                <i class="glyphicon glyphicon-zoom-in"></i>
+            </a>
+            <a class="btn btn-lg"
+               asp-page="./Edit"
+                asp-route-Id="@Model.Id">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-lg"
+               asp-page="./Delete"
+                asp-route-Id="@Model.Id">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>
+        </div>
+
+    </div>

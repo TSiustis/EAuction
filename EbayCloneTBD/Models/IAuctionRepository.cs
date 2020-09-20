@@ -16,5 +16,6 @@ namespace EbayCloneTBD.Models
         Auction Update(Auction updatedAuction);
         Auction Bid(int Id, double amount, User bidder);
         Auction EndAuction(int Id);
+        IQueryable<Auction> FilterByCategory(string filterCategory);
     }
 }

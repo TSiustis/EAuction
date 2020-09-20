@@ -61,15 +61,22 @@
 
 
 </div>
-            @*<div class="addToCart row">
-                <p class="button">
-                    <a class="btn btn-primary">Add to cart</a>
-                </p>
-            </div>*@
+           
+
             
         
 
     }
+</div>
+<div class="row ">
+
+    <ul class="navbar-nav ml-auto">
+        @foreach (var item in Model.Categories)
+        {
+        <li><a class="dropdown-item" asp-page="./List" asp-route-FilterCategory="@Model.FilterCategory">@item</a>
+        </li>
+        }
+        </ul>
 </div>
 
 @{

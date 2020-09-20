@@ -10,7 +10,7 @@ namespace EbayCloneTBD.Models
     public class Auction  : IValidatableObject
     {
 
-        public List<Bid> Bids { get; set; }
+        public virtual List<Bid> Bids { get; set; }
         private string name;
         [Required]
         public string Name
@@ -25,7 +25,7 @@ namespace EbayCloneTBD.Models
         public int Id { get; set; }
         [Required]
         public Category Category { get; set; }
-        public User Winner { get; set; }
+        public virtual User Winner { get; set; }
         [Required]
         [StringLength(4000)]
         public string Details { get; set; }
@@ -39,7 +39,7 @@ namespace EbayCloneTBD.Models
         public Country Country { get; set; }
         [Required]
         public Condition Condition { get; set; }
-        public User Seller { get; set; }
+        public virtual User Seller { get; set; }
         IEnumerable<ValidationResult> IValidatableObject.Validate(ValidationContext validationContext)
         {
             if (DateTime.Compare(EndDate, DateTime.UtcNow) < 0)

@@ -20,16 +20,23 @@
                 </h3>
                 <p>Condition @Model.Auction.Condition </p>
                 <p>Time left:<span id="timeLeft">@Model.TimeLeft</span></p>
-                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3><a href="/ViewBids">Count Bids</a>
-               
-                @if (@Model.Auction.Winner!= null) {
+                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3>
+                <h3>
+                    <a asp-page="/Bids/List" asp-route-id="@Model.Auction.Id">@Model.NoOfBids Bids</a>
+                </h3>
+
+                @if (@Model.Auction.Winner != null)
+                {
                 Winner: @Html.Raw(@Model.Auction.Winner.NickName);
                 }
-                @if (@Model.TimeLeft.TotalSeconds > 0|| @Model.Auction.Winner!= null)
+                @if (@Model.TimeLeft.TotalSeconds > 0 || @Model.Auction.Winner != null)
                 {
-                    <form asp-action="Bid" method="post">
+                    <form asp-action="post" method="post">
+                        <div class="text-danger">
+                            @Model.Error
+                        </div>
                         <div class="form-group">
-                            <input type="text" class="form-control"  id = "bidInput" placeholder="Enter your bid" />
+                            <input type="text" class="form-control" id="bidInput" placeholder="Enter your bid" name="Amount" />
                         </div>
                         <div class="form-group">
                             <button type="submit" id="submitBid" class="btn btn-primary btn-lg">Bid</button>
@@ -40,8 +47,8 @@
         </div>
         <div class="col border">
             Seller information
-            <h4><a href = "#">@Model.Auction.Seller?.FirstName</a></h4>
-            <h5>@Model.User?.Feedback % Positive Feedback </h5>
+            <h4><a href = "#">@Model.Auction.Seller?.NickName</a></h4>
+            <h5>@Model.Auction.Seller?.Feedback % Positive Feedback </h5>
         </div>
     </div>
     <div class="description row h-50">
@@ -64,6 +71,7 @@
             }
         }
         };
+      
         $(function () {
 
             $.ajax({
@@ -116,7 +124,8 @@
                     alert(ex);
                 }
             
-            });
+            },
+            );
             return false;
 
         });

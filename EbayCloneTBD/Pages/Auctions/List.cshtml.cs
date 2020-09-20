@@ -19,6 +19,8 @@ namespace EbayCloneTBD.Pages.Auctions
         public string CurrentFilter { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public HashSet<Category> Categories { get; set; }
         public PaginatedList<Auction> Auctions { get; set; }
         public ListModel(ApplicationDbContext context, IAuctionRepository auctionRepository)
         {
@@ -27,13 +29,14 @@ namespace EbayCloneTBD.Pages.Auctions
             _context = context;
         }
 
+        public string FilterCategory { get; set; }
         public string NameSort { get; set; }
         public string DateSort { get; set; }
         public string CurrentSort { get; set; }
         public IQueryable<Auction> AuctionsIQ { get; private set; }
 
         public async Task OnGetAsync(string SortOrder,
-            string currentFilter, string SearchString, int? pageIndex)
+            string currentFilter, string SearchString, int? pageIndex, string FilterCategory)
         {
             CurrentSort = SortOrder;
             AuctionsIQ =  _auctionRepository.GetAuctions();
@@ -49,7 +52,11 @@ namespace EbayCloneTBD.Pages.Auctions
             {
                 AuctionsIQ =  _auctionRepository.GetAuctions(SearchString);
             }
-           NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
+            if (!string.IsNullOrEmpty(FilterCategory))
+            {
+                AuctionsIQ = _auctionRepository.FilterByCategory(FilterCategory);
+            }
+            NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
            DateSort = SortOrder == "Date" ? "date_desc" : "Date";
             switch (SortOrder)
             {
@@ -70,9 +77,11 @@ namespace EbayCloneTBD.Pages.Auctions
                     break;
             }
             int pageSize = AuctionsIQ.Count();
-
             Auctions =  await PaginatedList<Auction>.CreateAsync(
                 AuctionsIQ, pageIndex ?? 1, pageSize);
+
+            foreach (var item in Auctions)
+                Categories.Add(item.Category);
         }
     }
 }

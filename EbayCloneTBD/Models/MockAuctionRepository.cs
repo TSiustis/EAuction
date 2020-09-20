@@ -80,5 +80,9 @@ namespace EbayCloneTBD.Models
             throw new NotImplementedException();
         }
 
+        public IQueryable<Auction> FilterByCategory(string filterCategory)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
