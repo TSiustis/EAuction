@@ -43,7 +43,7 @@ namespace EAuction.Models
 
         public IQueryable<Auction> GetAuctions(string SearchString)
         {
-            return  _context.Auctions.Where(a => a.Name.IndexOf(SearchString, StringComparison.OrdinalIgnoreCase) >= 0);
+            return  _context.Auctions.Where(a => a.Name.Contains(SearchString));
         }
 
         

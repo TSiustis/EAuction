@@ -1,71 +1,168 @@
-﻿/* Please see documentation at https://docs.microsoft.com/aspnet/core/client-side/bundling-and-minification
-for details on configuring this project to bundle and minify static web assets. */
+﻿
 
-a.navbar-brand {
-  white-space: normal;
-  text-align: center;
-  word-break: break-all;
-}
+/* Bootstrap 4 text input with search icon */
 
-/* Provide sufficient contrast against white background */
-a {
-  color: #0366d6;
+.has-search .form-control {
+    padding-left: 2.375rem;
 }
 
-.btn-primary {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
+.has-search .form-control-feedback {
+    position: absolute;
+    z-index: 2;
+    display: block;
+    width: 2.375rem;
+    height: 2.375rem;
+    line-height: 2.375rem;
+    text-align: center;
+    pointer-events: none;
+    color: #aaa;
 }
-
-.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
-  color: #fff;
-  background-color: #1b6ec2;
-  border-color: #1861ac;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  font-size: 14px;
-}
-@media (min-width: 768px) {
-  html {
-    font-size: 16px;
-  }
-}
-
-.border-top {
-  border-top: 1px solid #e5e5e5;
-}
-.border-bottom {
-  border-bottom: 1px solid #e5e5e5;
-}
-
-.box-shadow {
-  box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
-}
-
-button.accept-policy {
-  font-size: 1rem;
-  line-height: inherit;
-}
-
-/* Sticky footer styles
--------------------------------------------------- */
-html {
-  position: relative;
-  min-height: 100%;
-}
-
 body {
-  /* Margin bottom by footer height */
-  margin-bottom: 60px;
+    line-height: 1.7;
+    color: #999999;
+    font-weight: 300;
+    font-size: 15px;
 }
-.footer {
-  position: absolute;
-  bottom: 0;
-  width: 100%;
-  white-space: nowrap;
-  line-height: 60px; /* Vertically center the text there */
+
+::-moz-selection {
+    background: #000;
+    color: #fff;
 }
+
+::selection {
+    background: #000;
+    color: #fff;
+}
+
+a {
+    -webkit-transition: .3s all ease;
+    -o-transition: .3s all ease;
+    transition: .3s all ease;
+}
+
+    a:hover {
+        text-decoration: none;
+        
+    }
+    a{
+        text-align: center;
+        line-height:15px;
+
+    }
+ul {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    list-style-type: none;
+}
+.form-control {
+    border-radius: 0;
+    height: 55px;
+}
+li{
+    text-align:center;
+}
+
+    .form-control:active, .form-control:focus {
+        outline: none;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+        border-color: #000;
+    }
+.bg-image {
+    background-size: cover;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+    .bg-image.overlay {
+        position: relative;
+    }
+
+        .bg-image.overlay:after {
+            position: absolute;
+            content: "";
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.7);
+        }
+
+    .bg-image > .container {
+        position: relative;
+        z-index: 1;
+    }
+
+/* Blocks */
+.intro-section {
+    background-size: cover;
+    position: relative;
+}
+
+    .intro-section, .intro-section .container .row {
+        height: 100vh;
+        min-height: 500px;
+    }
+
+        .intro-section:before {
+            content: "";
+            position: absolute;
+            height: 100%;
+            width: 100%;
+            background: rgba(0, 0, 0, 0.2);
+            border-bottom-right-radius: 0px;
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+        }
+
+@media (max-width: 991.98px) {
+    .intro-section:before {
+        width: 100%;
+    }
+}
+
+.intro-section h1 {
+    font-size: 60px;
+    font-weight: 900;
+    line-height: 1;
+    color: #fff;
+}
+
+@media (max-width: 991.98px) {
+    .intro-section h1 {
+        font-size: 34px;
+    }
+}
+
+.intro-section p {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 20px;
+}
+
+.intro-section.small, .intro-section.small .container .row {
+    height: 90vh;
+    min-height: 300px;
+}
+
+.intro-section .intro {
+    margin-top: 6rem;
+}
+
+h1, h2, h3, h4, h5,
+.h1, .h2, .h3, .h4, .h5 {
+    font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+    color: #f37121;
+}
+
+
+img {
+    max-height: 150px;
+    max-width: 200px;
+}
+
+
