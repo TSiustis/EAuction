@@ -1,0 +1,133 @@
+﻿@page
+@model EAuction.Pages.Auctions.DetailsModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div>
+    <a asp-page="List">Back to Search Results</a>
+</div>
+<div class="container-fluid">
+    <div class="row h-50 border">
+        <div class="col border">
+            <img alt="@Model.Auction.Name" src="/images/@Model.Auction.UrlImage">
+        </div>
+        <div class="col border">
+            <div class="caption-full">
+                <h3>
+                    <a href="#">@Model.Auction.Name</a>
+                </h3>
+                <p>Condition @Model.Auction.Condition </p>
+                <p>Time left:<span id="timeLeft">@Model.TimeLeft</span></p>
+                <h3 class="pull-right">@Model.Auction.Price.ToString("c")</h3>
+                <h3>
+                    <a asp-page="/Bids/List" asp-route-id="@Model.Auction.Id">@Model.NoOfBids Bids</a>
+                </h3>
+
+                @if (@Model.Auction.Winner != null)
+                {
+                Winner: @Html.Raw(@Model.Auction.Winner.NickName);
+                }
+                @if (@Model.TimeLeft.TotalSeconds > 0 || @Model.Auction.Winner != null)
+                {
+                    <form asp-action="post" method="post">
+                        <div class="text-danger">
+                            @Model.Error
+                        </div>
+                        <div class="form-group">
+                            <input type="text" class="form-control" id="bidInput" placeholder="Enter your bid" name="Amount" />
+                        </div>
+                        <div class="form-group">
+                            <button type="submit" id="submitBid" class="btn btn-primary btn-lg">Bid</button>
+                        </div>
+                    </form>
+                }
+            </div>
+        </div>
+        <div class="col border">
+            Seller information
+            <h4><a href = "#">@Model.Auction.Seller?.NickName</a></h4>
+            <h5>@Model.Auction.Seller?.Feedback % Positive Feedback </h5>
+        </div>
+    </div>
+    <div class="description row h-50">
+        <p>@Model.Auction.Details</p>
+    </div>
+</div>
+@section scripts{ 
+    <script>
+        var getUrlParameter = function getUrlParameter(sParam) {
+        var sPageURL = window.location.search.substring(1),
+            sURLVariables = sPageURL.split('&'),
+            sParameterName,
+            i;
+
+        for (i = 0; i < sURLVariables.length; i++) {
+            sParameterName = sURLVariables[i].split('=');
+
+            if (sParameterName[0] === sParam) {
+                return sParameterName[1] === undefined ? true : decodeURIComponent(sParameterName[1]);
+            }
+        }
+        };
+      
+        $(function () {
+
+            $.ajax({
+                type: 'GET',
+                url: '/api/Auctions/' + getUrlParameter('id') + '',
+                dataType: 'json',
+
+                success: function (jsonData) {
+                    if (jsonData == null) {
+                        alert('no data returned');
+
+                        return;
+                    }
+                    var endDate = new Date(jsonData.endDate);
+                    var _second = 1000;
+                    var _minute = _second * 60;
+                    var _hour = _minute * 60;
+                    var _day = _hour * 24;
+                    var timer;
+
+                    function showRemaining() {
+                        var currentDate = new Date();
+                        var timeLeft = endDate - currentDate;
+                        if (timeLeft < 0) {
+
+                            clearInterval(timer);
+                            document.getElementById('timeLeft').innerHTML = 'EXPIRED!';
+                            $('#bidInput').prop("hidden", true);
+                            $('#submitBid').prop('hidden', true);
+                            var id = getUrlParameter('id');
+                            alert('invoking!');
+                            connection.invoke("GetUpdateForOrder", id);
+                            return;
+                        }
+                        var days = Math.floor(timeLeft / _day);
+                        var hours = Math.floor((timeLeft % _day) / _hour);
+                        var minutes = Math.floor((timeLeft % _hour) / _minute);
+                        var seconds = Math.floor((timeLeft % _minute) / _second);
+
+                        document.getElementById('timeLeft').innerHTML = days + ' days ';
+                        document.getElementById('timeLeft').innerHTML += hours + ' hrs ';
+                        document.getElementById('timeLeft').innerHTML += minutes + ' mins ';
+                        document.getElementById('timeLeft').innerHTML += seconds + ' secs';
+
+        }
+                    timer = setInterval(showRemaining, 100);
+                },
+                error: function (ex) {
+
+                    alert(ex);
+                }
+            
+            },
+            );
+            return false;
+
+        });
+    </script>
+}

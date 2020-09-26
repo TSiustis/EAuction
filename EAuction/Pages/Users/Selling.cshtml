@@ -1,0 +1,67 @@
+﻿@page
+@model EAuction.Pages.Users.SellingModel
+@{
+    ViewData["Title"] = "Selling";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+<div class="row">
+    <div class="col-lg-3">
+
+        <partial name="~/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" asp-area="Identity"/>
+    </div>
+    <div class="col-lg-9">
+        <h1>My Auctions</h1>
+        <div class="main border col">
+            @foreach (var item in @Model.Auctions)
+            {
+                <div class="row justify-content-md-center border no-gutters">
+                    <div class="thumbnail col-xs-2 col-md-2 col-lg-2">
+
+                        <img src="/images/@item.UrlImage" alt="">
+                    </div>
+                    <div class="caption col-xs-8 col-md-8 col-lg-8">
+                        <h3>
+                            <a asp-page="./Details" asp-route-id="@item.Id">@item.Name</a>
+                        </h3>
+
+                        <p>@item.Condition</p>
+
+                        <h4 class="pull-right">@item.Price.ToString("c")</h4>
+                    </div>
+                    <div class="col-xs-2 col-md-2 col-lg-2">
+                        From @item.Country
+                    </div>
+
+
+                </div>
+
+
+
+
+
+
+            }
+        </div>
+    </div>
+    </div>
+@{
+    var prevDisabled = !Model.Auctions.HasPreviousPage ? "disabled" : "";
+    var nextDisabled = !Model.Auctions.HasNextPage ? "disabled" : "";
+
+    if (!prevDisabled.Equals("disabled"))
+    {
+        <a asp-page="./Selling"
+           asp-route-pageIndex="@(Model.Auctions.PageIndex - 1)"
+           class="btn btn-primary @prevDisabled">
+            Previous
+        </a>
+    }
+    if (!nextDisabled.Equals("disabled"))
+    {
+        <a asp-page="./Selling"
+           asp-route-pageIndex="@(Model.Auctions.PageIndex + 1)"
+           class="btn btn-primary @nextDisabled">
+            Next
+        </a>
+    }
+}

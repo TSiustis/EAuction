@@ -1,0 +1,62 @@
+﻿@inject Microsoft.AspNetCore.Hosting.IHostingEnvironment env
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - EAuction</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" />
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+            <div class="container">
+
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target=".navbar-collapse" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="navbar-collapse collapse d-sm-inline-flex flex-sm-row-reverse">
+                    <ul class="navbar-nav flex-grow-1">
+                        <li> <a class="navbar-brand" asp-area="" asp-page="/Index"><img src="/logo_transparent.png"  /></a> </li>
+                        <li><a class="navbar-brand" asp-area="" asp-page="Auctions/List">Auctions</a></li>
+                        
+                    </ul>
+
+                </div>
+                <form asp-page="Auctions/List" class="form-inline w-75" method="get">
+                    <div class="form-group has-search w-100">
+                        <span class="fa fa-search form-control-feedback"></span>
+                        <input type="text" placeholder="Search..." name="SearchString" class="form-control w-100 ">
+
+
+                    </div>
+                </form>
+            </div>
+
+            <partial name="_LoginPartial" />
+        </nav>
+    </header>
+    <div class="container">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+    </div>
+
+    <footer class="border-top footer text-muted">
+        <div class="container">
+            &copy; 2020 - EAuction - <a asp-area="" asp-page="/Privacy">Privacy</a>
+        </div>
+    </footer>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    <script src="~/js/signalr/dist/browser/signalr.js"></script>
+    <script src="~/js/auction.js"></script>
+
+    @RenderSection("Scripts", required: false)
+</body>
+</html>
