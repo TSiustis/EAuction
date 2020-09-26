@@ -17,6 +17,8 @@ namespace EbayCloneTBD.Pages.Auctions
 
         private readonly IAuctionRepository _auctionRepository;
         public string CurrentFilter { get; set; }
+        [BindProperty]
+        public string selectedDropdown { get; set; }
         [BindProperty(SupportsGet = true)]
         public string SearchString { get; set; }
         [BindProperty(SupportsGet = true)]
@@ -56,24 +58,30 @@ namespace EbayCloneTBD.Pages.Auctions
             {
                 AuctionsIQ = _auctionRepository.FilterByCategory(FilterCategory);
             }
+            selectedDropdown = "Best Match";
             NameSort = String.IsNullOrEmpty(SortOrder) ? "name_desc" : "";
            DateSort = SortOrder == "Date" ? "date_desc" : "Date";
             switch (SortOrder)
             {
                 case "date_asc":
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.EndDate);
+                    selectedDropdown = "Ending First";
                     break;
                 case "date_desc":
                     AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.EndDate);
+                    selectedDropdown = "Ending Last";
                     break;
                 case "price_asc":
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.Price);
+                    selectedDropdown = "Lowest Price";
                     break;
                 case "price_desc":
                     AuctionsIQ = AuctionsIQ.OrderByDescending(s => s.Price);
+                    selectedDropdown = "Highest Price";
                     break;
                 default:
                     AuctionsIQ = AuctionsIQ.OrderBy(s => s.Name);
+                    selectedDropdown = "Best Match";
                     break;
             }
             int pageSize = AuctionsIQ.Count();

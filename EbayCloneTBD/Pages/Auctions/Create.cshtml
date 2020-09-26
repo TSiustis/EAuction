@@ -1,4 +1,6 @@
 ﻿@page
+@using Microsoft.AspNetCore.Identity
+@inject SignInManager<EbayCloneTBD.Models.User> SignInManager
 @model tf_with.Pages.Auctions.CreateModel
 
 @{
@@ -9,64 +11,70 @@
 
 <h4>Auction</h4>
 <hr />
-<div class="row">
-    <div class="col-md-12">
-        <form method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
+@if (SignInManager.IsSignedIn(User))
+{
+    <div class="row">
+        <div class="col-md-12">
+            <form method="post"  enctype="multipart/form-data">
+                <div asp-validation-summary="All" class="text-danger"></div>
 
-            <div class="form-group col-md-8">
-                <label asp-for="Auction.Name" class="control-label"></label>
-                <input asp-for="Auction.Name" class="form-control" />
-                <span asp-validation-for="Auction.Name" class="text-danger"></span>
+                <div class="form-group col-md-8">
+                    <label asp-for="Auction.Name" class="control-label"></label>
+                    <input asp-for="Auction.Name" class="form-control" />
+                    <span asp-validation-for="Auction.Name" class="text-danger"></span>
 
-            </div>
-         
-            <div class="form-group">
-                <label asp-for="Auction.UrlImage" class="control-label"></label>
-                <input asp-for="Auction.UrlImage" class="form-control" />
-                @**string or file? *@
-                @*<input type="file" name="file" multiple="multiple" />*@
-                <span asp-validation-for="Auction.UrlImage" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="Auction.Details" class="control-label"></label>
-                <textarea asp-for="Auction.Details" class="form-control"></textarea>
-                <span asp-validation-for="Auction.Details" class="text-danger"></span>
-            </div>
-            <div class="form-group col-md-2">
-                <label asp-for="Auction.Price" class="control-label"></label>
-                <input asp-for="Auction.Price" class="form-control" />
-                <span asp-validation-for="Auction.Price" class="text-danger"></span>
-            </div>
-            <div class="form-row">
-                
-                <div class="form-group">
-                    <label asp-for="Auction.EndDate" class="control-label"></label>
-                    <input asp-for="Auction.EndDate" class="form-control" />
-                    <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
                 </div>
-            </div>
-            <div class="form-group">
-                <label asp-for="Auction.Country"></label>
-                <select class="form-control"
-                        asp-items="Model.Countries"></select>
-                <span class="text-danger" asp-validation-for="Auction.Country"></span>
-            </div>
 
-            <div class="form-group">
-                <select asp-for="Categories" asp-items="Model.CategoriesList"></select>
-            </div>
-            <div class="form-group">
-                <input type="submit" value="Create" class="btn btn-primary" />
-            </div>
-        </form>
+                <div class="form-group">
+                    <label asp-for="Auction.UrlImage" class="control-label"></label>
+                    @*<input asp-for="Auction.UrlImage" class="form-control" />*@
+                    @**string or file? *@
+                    <input type="file" asp-for="selectedFile" />
+                    <span asp-validation-for="Auction.UrlImage" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Auction.Details" class="control-label"></label>
+                    <textarea asp-for="Auction.Details" class="form-control"></textarea>
+                    <span asp-validation-for="Auction.Details" class="text-danger"></span>
+                </div>
+                <div class="form-group col-md-2">
+                    <label asp-for="Auction.Price" class="control-label"></label>
+                    <input asp-for="Auction.Price" class="form-control" />
+                    <span asp-validation-for="Auction.Price" class="text-danger"></span>
+                </div>
+                <div class="form-row">
+
+                    <div class="form-group">
+                        <label asp-for="Auction.EndDate" class="control-label"></label>
+                        <input asp-for="Auction.EndDate" class="form-control" />
+                        <span asp-validation-for="Auction.EndDate" class="text-danger"></span>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label asp-for="Auction.Country"></label>
+                    <select class="form-control"
+                            asp-items="Model.Countries"></select>
+                    <span class="text-danger" asp-validation-for="Auction.Country"></span>
+                </div>
+
+                <div class="form-group">
+                    <select asp-for="Categories" asp-items="Model.CategoriesList"></select>
+                </div>
+                <div class="form-group">
+                    <input type="submit" value="Create" class="btn btn-primary" />
+                </div>
+            </form>
+        </div>
     </div>
-</div>
 
-<div>
-    <a asp-page="Index">Back to List</a>
-</div>
-
+    <div>
+        <a asp-page="Index">Back to List</a>
+    </div>
+}
+else
+{
+    Response.Redirect("/Identity/Account/Login");
+}
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 }

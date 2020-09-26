@@ -19,17 +19,17 @@
 </form>
 <div class="row">
     <div class="col-md-3">
-            <div class="side-box mb-5">
-                <h3>Categories</h3>
-                <ul class="list-unstyled auction-categories">
-                    @foreach (var item in @Model.Categories)
-                    {
-                        <li>
-                            <a class="dropdown-item" asp-page="./List" asp-route-FilterCategory="@item.ToString()">@item</a>
-                        </li>
-                    }
-                </ul>
-            </div>
+        <div class="side-box mb-5">
+            <h3>Categories</h3>
+            <ul class="list-unstyled auction-categories">
+                @foreach (var item in @Model.Categories)
+                {
+                    <li>
+                        <a class="dropdown-item" asp-page="./List" asp-route-FilterCategory="@item.ToString()">@item</a>
+                    </li>
+                }
+            </ul>
+        </div>
     </div>
     <div class="main border col">
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
@@ -40,16 +40,18 @@
             </ul>
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                    </a>
-                    <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            @Model.selectedDropdown
+                        </a>
 
-                        <a class="dropdown-item" asp-page="./List" asp-route-currentFilter="@Model.CurrentFilter">Best Match</a>
-                        <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_asc" asp-route-currentFilter="@Model.CurrentFilter">Ending First</a>
-                        <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_desc" asp-route-currentFilter="@Model.CurrentFilter">Ending Last</a>
-                        <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_asc" asp-route-currentFilter="@Model.CurrentFilter"> Lowest Price </a>
-                        <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_desc" asp-route-currentFilter="@Model.CurrentFilter"> Highest Price </a>
-                    </div>
+                        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+
+                            <a class="dropdown-item" asp-page="./List" asp-route-currentFilter="@Model.CurrentFilter">Best Match</a>
+                            <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_asc" asp-route-currentFilter="@Model.CurrentFilter">Ending First</a>
+                            <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="date_desc" asp-route-currentFilter="@Model.CurrentFilter">Ending Last</a>
+                            <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_asc" asp-route-currentFilter="@Model.CurrentFilter"> Lowest Price </a>
+                            <a class="dropdown-item" asp-page="./List" asp-route-SortOrder="price_desc" asp-route-currentFilter="@Model.CurrentFilter"> Highest Price </a>
+                        </div>
                 </li>
 
             </ul>
@@ -61,7 +63,7 @@
             <div class="row justify-content-md-center border no-gutters">
                 <div class="thumbnail col-xs-2 col-md-2 col-lg-2">
 
-                    <img src="@item.UrlImage" alt="">
+                    <img src="/images/@item.UrlImage" alt="">
                 </div>
                 <div class="caption col-xs-8 col-md-8 col-lg-8">
                     <h3>
@@ -111,4 +113,16 @@
             Next
         </a>
     }
+}
+@section scripts{
+    <script>
+        $(document).ready(function () {
+            $(".dropdown-menu  a").click(function () {
+                var selText = $(this).text();
+                console.log(selText);
+                $('.dropdown-toggle').val(selText);
+                $(this).parents(".input-group-btn").find('.btn').text($(this).text());
+            });
+        });
+    </script>
 }

@@ -10,6 +10,9 @@ using EbayCloneTBD.Models;
 using EAuction.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using System.IO;
+using Microsoft.AspNetCore.Hosting;
 
 namespace tf_with.Pages.Auctions
 {
@@ -20,14 +23,19 @@ namespace tf_with.Pages.Auctions
         private readonly UserManager<User> _userManager;
         private readonly IAuctionRepository _auctionRepository;
         private readonly IHtmlHelper htmlHelper;
+        private readonly IWebHostEnvironment _hostingEnvironment;
         public int SelectedValue;
         public CategoryViewModel CategoriesVM { get; set; }
         [BindProperty(SupportsGet =true)]
         public IEnumerable<string> Categories { get; set; }
         public IEnumerable<SelectListItem> Countries { get; set; }
         public List<SelectListItem> CategoriesList { get; set; }
-        public CreateModel(ApplicationDbContext context, IHtmlHelper htmlHelper,SignInManager<User> signInManager,IAuctionRepository auctionRepository, UserManager<User> userManager)
+        [BindProperty]
+        public IFormFile selectedFile { get; set; }
+        public CreateModel(ApplicationDbContext context, IHtmlHelper htmlHelper,SignInManager<User> signInManager,IAuctionRepository auctionRepository, 
+                        UserManager<User> userManager, IWebHostEnvironment hostingEnvironment)
         {
+            _hostingEnvironment = hostingEnvironment;
             _userManager = userManager;
             _auctionRepository = auctionRepository;
             _signInManager = signInManager;
@@ -35,7 +43,7 @@ namespace tf_with.Pages.Auctions
             _context = context;
             this.htmlHelper = htmlHelper;
         }
-
+      
         public async Task<IActionResult> OnGetAsync()
         {
             Countries = htmlHelper.GetEnumSelectList<Country>();
@@ -53,6 +61,7 @@ namespace tf_with.Pages.Auctions
             {
                 return Redirect("/Identity/Account/Login");
             }
+
             if (!ModelState.IsValid)
             {
                 Countries = htmlHelper.GetEnumSelectList<Country>();
@@ -60,8 +69,17 @@ namespace tf_with.Pages.Auctions
                 CategoriesList = CategoriesVM.Categories;
                 return Page();
             }
+                if (selectedFile != null && selectedFile.Length > 0)
+            {
+                var fileName = Path.GetFileName(selectedFile.FileName);
+               // var filePath = Path.Combine(@"wwwroot\images", fileName);
+                var filePath =  Path.Combine(_hostingEnvironment.WebRootPath, "images", fileName);
+                using var fileStream = new FileStream(filePath, FileMode.Create);
+               await selectedFile.CopyToAsync(fileStream);
+            }
             var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
             Auction.Seller = user;
+            Auction.UrlImage = selectedFile.FileName;
             Auction.Category = (Category)Enum.Parse(typeof(Category), Categories.First(), true);
             _auctionRepository.CreateAuction(Auction);
 
