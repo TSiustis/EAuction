@@ -1,6 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@inject SignInManager<EbayCloneTBD.Models.User> SignInManager
-@inject UserManager<EbayCloneTBD.Models.User> UserManager
+@inject SignInManager<EAuction.Models.User> SignInManager
+@inject UserManager<EAuction.Models.User> UserManager
 
     <ul class="navbar-nav">
         @if (SignInManager.IsSignedIn(User))

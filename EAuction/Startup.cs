@@ -14,11 +14,13 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using EAuction.Models;
 using EAuction.Hubs;
+using Microsoft.Data.SqlClient;
 
 namespace EAuction
 {
     public class Startup
     {
+        private string _connection = null;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -29,12 +31,18 @@ namespace EAuction
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddDbContext<ApplicationDbContext>(options =>
+            var builder = new SqlConnectionStringBuilder(
+           Configuration.GetConnectionString("DefaultConnection"));
+
+            _connection = builder.ConnectionString;
+            builder.Password = Configuration["Password"];
+            _connection = builder.ConnectionString;
+      
+        services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseLazyLoadingProxies()
                     .UseSqlServer(
-                    Configuration.GetConnectionString("DefaultConnection")));
-
-
+                    _connection));
+            services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             services.AddTransient<IAuctionRepository, AuctionRepository>()  ;
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
