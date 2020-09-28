@@ -44,11 +44,11 @@ a {
         text-decoration: none;
         
     }
-    a{
-        text-align: center;
-        line-height:15px;
-
-    }
+a {
+    text-align: center;
+    line-height: 15px;
+    color: #333;
+}
 ul {
     display: flex;
     align-items: center;
@@ -156,10 +156,14 @@ li{
 h1, h2, h3, h4, h5,
 .h1, .h2, .h3, .h4, .h5 {
     font-family: "Muli", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
-    color: #f37121;
+    color: #333;
 }
-
-
+a:focus, a:hover {
+    color: #0654ba;
+}
+a:visited {
+    color:#6a29b9 ;
+}
 img {
     max-height: 150px;
     max-width: 200px;
