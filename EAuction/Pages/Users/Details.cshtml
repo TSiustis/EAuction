@@ -2,67 +2,53 @@
 @model EAuction.Pages.Users.DetailsModel
 
 @{
-    ViewData["Title"] = "Details";
+    ViewData["Title"] = Model.MyUser.NickName  + "'s Profile";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
+<div class="panel panel-default">
+    <div class="panel-body">
+        <span>Bidder: @Model.MyUser.NickName</span>
+        <span>Amount: @Model.MyUser.Feedback</span>
 
-<div class="row">
-    <div class="col-md-6">
-        <form id="profile-form" method="post">
-            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="MyUser.NickName"></label>
-                <input asp-for="MyUser.NickName" class="form-control" disabled />
-            </div>
-            <div class="form-group">
-                <label asp-for="MyUser.NickName"></label>
-                <input asp-for="MyUser.NickName" class="form-control" />
-                <span asp-validation-for="MyUser.NickName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MyUser.FirstName"></label>
-                <input asp-for="MyUser.FirstName" class="form-control" />
-                <span asp-validation-for="MyUser.FirstName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MyUser.LastName"></label>
-                <input asp-for="MyUser.LastName" class="form-control" />
-                <span asp-validation-for="MyUser.LastName" class="text-danger"></span>
-            </div>
+        <span>Bidder: @Model.MyUser.Country</span>
+        <button class="messageBtn btn btn-lg">Message</button>
+        <form class="hidden" type="post" id="messageForm">
 
-            <div class="form-group">
-                <label asp-for="MyUser.Address"></label>
-                <input asp-for="MyUser.Address" class="form-control" />
-                <span asp-validation-for="MyUser.Address" class="text-danger"></span>
-            </div>
+            <label asp-for="Message.Subject" class="control-label"></label>
+            <input asp-for="Message.Subject" class="form-control" />
 
-            <div class="form-group">
-                <label asp-for="MyUser.Country"></label>
-                <input asp-for="MyUser.Country" class="form-control" />
-                <span asp-validation-for="MyUser.Country" class="text-danger"></span>
-            </div>
-
-            <div class="form-group">
-                <label asp-for="MyUser.City"></label>
-                <input asp-for="MyUser.City" class="form-control" />
-                <span asp-validation-for="MyUser.City" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MyUser.PostCode"></label>
-                <input asp-for="MyUser.PostCode" class="form-control" />
-                <span asp-validation-for="MyUser.PostCode" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <label asp-for="MyUser.PhoneNumber"></label>
-                <input asp-for="MyUser.PhoneNumber" class="form-control" />
-                <span asp-validation-for="MyUser.PhoneNumber" class="text-danger"></span>
-            </div>
+            <label asp-for="Message.MessageBody" class="control-label"></label>
+            <input asp-for="Message.MessageBody" class="form-control" />
         </form>
     </div>
+    <div class="panel-footer">
+        <a class="btn btn-lg"
+           asp-page="./Detail"
+           asp-route-Id="@Model.MyUser.Id">
+            <i class="glyphicon glyphicon-zoom-in"></i>
+        </a>
+        @*<a class="btn btn-lg"
+               asp-page="./Edit"
+               asp-route-Id="@Model.Id">
+                <i class="glyphicon glyphicon-edit"></i>
+            </a>
+            <a class="btn btn-lg"
+               asp-page="./Delete"
+               asp-route-Id="@Model.Id">
+                <i class="glyphicon glyphicon-trash"></i>
+            </a>*@
+    </div>
+
 </div>
-<div>
-    <a asp-page="./Edit" asp-route-id="@Model.MyUser.Id">Edit</a> |
-    <a asp-page="./Index">Back to List</a>
-</div>
+@section Scripts{
+    <script>
+        $(function () {
+
+            $('button').click(function () {
+                $('#messageForm').removeClass('hidden');
+            });
+        });
+    </script>
+}

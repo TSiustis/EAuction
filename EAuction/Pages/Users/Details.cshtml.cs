@@ -28,7 +28,7 @@ namespace EAuction.Pages.Users
 
         [BindProperty(SupportsGet =true)]
         public User MyUser { get; set; }
-
+        public Message Message { get; set; }
 
         public  IActionResult OnGetAsync(string? id)
         {

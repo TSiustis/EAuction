@@ -33,7 +33,7 @@ namespace EAuction.Pages.Users
             Messages = _messageRepository.GetAllConversationsForUser(user);
             if (Messages.FirstOrDefault() != null)
             {
-                MessageSubject = Messages.FirstOrDefault().ToString();
+                MessageSubject = Messages.FirstOrDefault().Subject;
             }
                 return Page();
         }
