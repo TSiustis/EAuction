@@ -20,17 +20,20 @@ namespace EAuction
             Host.CreateDefaultBuilder(args)
             .ConfigureAppConfiguration((context,config) =>
             {
+                string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+                if (environment.Equals("PRODUCTION"))
+                {
+                    var builtConfig = config.Build();
+                    var azureServiceTokenProvider = new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider();
+                    var keyVaultClient = new Microsoft.Azure.KeyVault.KeyVaultClient(
+                        new Microsoft.Azure.KeyVault.KeyVaultClient.AuthenticationCallback(
+                            azureServiceTokenProvider.KeyVaultTokenCallback));
 
-                var builtConfig = config.Build();
-                var azureServiceTokenProvider = new Microsoft.Azure.Services.AppAuthentication.AzureServiceTokenProvider();
-                var keyVaultClient = new Microsoft.Azure.KeyVault.KeyVaultClient(
-                    new Microsoft.Azure.KeyVault.KeyVaultClient.AuthenticationCallback(
-                        azureServiceTokenProvider.KeyVaultTokenCallback));
-
-                config.AddAzureKeyVault(
-                    $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
-                    keyVaultClient,
-                    new DefaultKeyVaultSecretManager());
+                    config.AddAzureKeyVault(
+                        $"https://{builtConfig["KeyVaultName"]}.vault.azure.net/",
+                        keyVaultClient,
+                        new DefaultKeyVaultSecretManager());
+                }
             })
                 .ConfigureWebHostDefaults(webBuilder =>
                 {

@@ -1,0 +1,40 @@
+﻿@page
+@model EAuction.Pages.Users.MessagesModel
+@{
+    ViewData["Title"] = "Message from ";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.MessageSubject</h1>
+
+@foreach (var message in Model.Messages)
+{
+    <div class="col-lg-10">
+        <h2>From: @message.Sender.NickName</h2>
+        <p>@message.MessageBody</p>
+    </div>
+}
+
+<button type="submit" class="btn-primary">Reply</button>
+<form method="post" id="messageForm" class="hidden">
+
+    <div class="form-group col-md-8">
+        <label asp-for="Message.MessageBody" class="control-label"></label>
+        <textarea asp-for="Message.MessageBody" class="form-control"></textarea>
+        <span asp-validation-for="Message.MessageBody" class="text-danger"></span>
+
+    </div>
+    <div class="form-group">
+        <input type="submit" value="Send" class="btn btn-primary" />
+    </div>
+</form>
+@section Scripts{ 
+    <script>
+        $(function () {
+
+            $('button').click(function () {
+                $('#messageForm').removeClass('hidden');
+            });
+        });
+    </script>
+}

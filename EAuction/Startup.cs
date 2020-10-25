@@ -31,19 +31,27 @@ namespace EAuction
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            var builder = new SqlConnectionStringBuilder(
-           Configuration.GetConnectionString("DefaultConnection"));
+            string environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
+            if (environment.Equals("PRODUCTION"))
+            {
+                var builder = new SqlConnectionStringBuilder(
+               Configuration.GetConnectionString("DefaultConnection"));
 
-            _connection = builder.ConnectionString;
-            builder.Password = Configuration["Password"];
-            _connection = builder.ConnectionString;
-      
-        services.AddDbContext<ApplicationDbContext>(options =>
-                options.UseLazyLoadingProxies()
-                    .UseSqlServer(
-                    _connection));
+                _connection = builder.ConnectionString;
+                builder.Password = Configuration["Password"];
+                _connection = builder.ConnectionString;
+            }else if (environment.Equals("DEVELOPMENT"))
+            {
+                services.AddDbContext<ApplicationDbContext>(options =>
+              options.UseLazyLoadingProxies()
+                  .UseSqlServer(
+                  Configuration.GetConnectionString("DefaultConnection")));
+
+            }
+            services.AddDbContext<ApplicationDbContext>();
             services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             services.AddTransient<IAuctionRepository, AuctionRepository>()  ;
+            services.AddTransient<IMessageRepository, MessageRepository>();
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

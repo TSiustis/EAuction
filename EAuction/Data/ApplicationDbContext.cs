@@ -15,5 +15,6 @@ namespace EAuction.Data
         }
         public DbSet<Auction> Auctions { get; set; }
         public DbSet<User> AuctionUser { get; set; }
+        public DbSet<Message>Messages { get; set; }
     }
 }

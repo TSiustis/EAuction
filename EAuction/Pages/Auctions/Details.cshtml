@@ -81,7 +81,7 @@
 
                 success: function (jsonData) {
                     if (jsonData == null) {
-                        alert('no data returned');
+                        //alert('no data returned');
 
                         return;
                     }
@@ -102,7 +102,7 @@
                             $('#bidInput').prop("hidden", true);
                             $('#submitBid').prop('hidden', true);
                             var id = getUrlParameter('id');
-                            alert('invoking!');
+                            //alert('invoking!');
                             connection.invoke("GetUpdateForOrder", id);
                             return;
                         }
@@ -121,7 +121,7 @@
                 },
                 error: function (ex) {
 
-                    alert(ex);
+                    //alert(ex);
                 }
             
             },
