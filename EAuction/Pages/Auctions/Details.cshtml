@@ -47,7 +47,7 @@
         </div>
         <div class="col border">
             Seller information
-            <h4><a href = "#">@Model.Auction.Seller?.NickName</a></h4>
+            <h4> <a asp-page="/Users/Details" asp-route-id="@Model.Auction.Seller.Id">@Model.Auction.Seller?.NickName</a></h4>
             <h5>@Model.Auction.Seller?.Feedback % Positive Feedback </h5>
         </div>
     </div>

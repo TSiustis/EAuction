@@ -1,0 +1,56 @@
+﻿@page
+@model EAuction.Pages.Users.MessageDetailsModel
+
+@{
+    ViewData["Title"] = "MessageDetails";
+    Layout = "~/Pages/Shared/_Layout.cshtml";
+}
+
+<h1>MessageDetails</h1>
+
+<div>
+    <h4>Message</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.Subject)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.Subject)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.MessageBody)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.MessageBody)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.ParentId)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.ParentId)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.IsViewed)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.IsViewed)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.CreatedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.CreatedAt)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.Message.ViewedAt)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.Message.ViewedAt)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-page="./Edit" asp-route-id="@Model.Message.Id">Edit</a> |
+    <a asp-page="./Index">Back to List</a>
+</div>

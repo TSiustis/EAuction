@@ -5,16 +5,59 @@
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
-<h1>@Model.MessageSubject</h1>
 
-@foreach (var message in Model.Messages)
+@*@foreach (var message in Model.Messages)
 {
-    <div class="col-lg-10">
-        <h2>From: @message.Sender.NickName</h2>
-        <p>@message.MessageBody</p>
+    <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+        @message.Subject
+    </a>
+    <div class="collapse" id="collapseExample">
+        <h4>From: @message.Sender.NickName</h4>
+        <h4>@message.MessageBody</h4>
     </div>
-}
 
+}*@
+    <div class="row">
+        <div class="col-lg-3">
+
+            <partial name="~/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" asp-area="Identity" />
+        </div>
+
+        <div class="col  border no-gutters">
+
+            <div class="caption col-lg-8">
+                <h3>  From </h3>
+
+                <p>@Model.FirstMessage[0].Subject</p>
+
+                <h4 class="pull-right">Received</h4>
+            </div>
+
+            @foreach (var item in @Model.FirstMessage)
+            {
+                <div class="row  no-gutters">
+
+                    <div class="caption col-xs-8 col-md-8 col-lg-8">
+                        <h3> @item.Sender.NickName</h3>
+
+                        <p>@item.Subject</p>
+
+                        <h4 class="pull-right">@item.CreatedAt.ToShortDateString()</h4>
+                    </div>
+
+
+
+                </div>
+
+
+
+
+
+
+            }
+
+        </div>
+    </div>
 <button type="submit" class="btn-primary">Reply</button>
 <form method="post" id="messageForm" class="hidden">
 
@@ -28,7 +71,7 @@
         <input type="submit" value="Send" class="btn btn-primary" />
     </div>
 </form>
-@section Scripts{ 
+@section Scripts{
     <script>
         $(function () {
 

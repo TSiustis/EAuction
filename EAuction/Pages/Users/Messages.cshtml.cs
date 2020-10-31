@@ -21,6 +21,8 @@ namespace EAuction.Pages.Users
         public List<Message> Messages { get; set; }
         [BindProperty]
         public Message Message { get; set; }
+        [BindProperty(SupportsGet =true)]
+        public List<Message> FirstMessage { get; set; }
         public MessagesModel(ApplicationDbContext context, IMessageRepository messageRepository, UserManager<EAuction.Models.User> userManager)
         {
             _messageRepository = messageRepository;
@@ -30,7 +32,8 @@ namespace EAuction.Pages.Users
         public IActionResult OnGet()
         {
             var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
-            Messages = _messageRepository.GetAllConversationsForUser(user);
+            FirstMessage = _messageRepository.GetFirstMessageForUser(user);
+            Messages = _messageRepository.GetAllConversationsForUserExceptFirst(user);
             if (Messages.FirstOrDefault() != null)
             {
                 MessageSubject = Messages.FirstOrDefault().Subject;
@@ -43,7 +46,7 @@ namespace EAuction.Pages.Users
             var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
             if (!ModelState.IsValid)
             {
-                Messages = _messageRepository.GetAllConversationsForUser(user);
+                Messages = _messageRepository.GetAllConversationsForUserExceptFirst(user);
 
                 MessageSubject = Messages[1].Subject;
                 return Page();
@@ -51,7 +54,7 @@ namespace EAuction.Pages.Users
             
             _messageRepository.SendMessage(Message,user,user);
 
-            Messages = _messageRepository.GetAllConversationsForUser(user);
+            Messages = _messageRepository.GetAllConversationsForUserExceptFirst(user);
             Message.MessageBody = "";
             return Page();
         }

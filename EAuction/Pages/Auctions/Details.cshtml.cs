@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Principal;
 using System.Threading.Tasks;
 using EAuction.Data;
+using EAuction.Helpers;
 using EAuction.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -15,14 +16,17 @@ namespace EAuction.Pages.Auctions
     {
         private readonly ApplicationDbContext _applicationDbContext;
 
+        private readonly CustomIDataProtection _customIDataProtection;
         public readonly SignInManager<EAuction.Models.User> _signInManager;
 
         private readonly UserManager<EAuction.Models.User> _userManager;
         private readonly IAuctionRepository _auctionRepository;
         public DetailsModel(ApplicationDbContext applicationDbContext, IAuctionRepository auctionRepository,
-                        SignInManager<EAuction.Models.User> signInManager,UserManager<EAuction.Models.User> userManager)
+                        SignInManager<EAuction.Models.User> signInManager,UserManager<EAuction.Models.User> userManager,
+                        CustomIDataProtection customIDataProtection)
 
         {
+            _customIDataProtection = customIDataProtection;
             _userManager = userManager;
             _signInManager = signInManager;
             _applicationDbContext = applicationDbContext;
@@ -39,8 +43,10 @@ namespace EAuction.Pages.Auctions
         public string Error { get; set; }
         [BindProperty]
         public int NoOfBids { get; set; }
+        public string EncryptedId { get; set; }
         public async Task<IActionResult> OnGetAsync(int? id)
         {
+
             if (id == null)
                 return NotFound();
             int Id = (int)id;
@@ -48,6 +54,8 @@ namespace EAuction.Pages.Auctions
 
             if (Auction == null)
                 return NotFound();
+
+            EncryptedId = _customIDataProtection.Encode(Auction.Seller.Id);
             TimeLeft = Auction.EndDate - Auction.StartDate;
             NoOfBids = Auction.Bids.Count();
 

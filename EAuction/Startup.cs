@@ -15,6 +15,8 @@ using Microsoft.Extensions.Hosting;
 using EAuction.Models;
 using EAuction.Hubs;
 using Microsoft.Data.SqlClient;
+using static EAuction.Helpers.CustomIDataProtection;
+using EAuction.Helpers;
 
 namespace EAuction
 {
@@ -52,6 +54,8 @@ namespace EAuction
             services.BuildServiceProvider().GetService<ApplicationDbContext>().Database.Migrate();
             services.AddTransient<IAuctionRepository, AuctionRepository>()  ;
             services.AddTransient<IMessageRepository, MessageRepository>();
+            services.AddSingleton<UniqueCode>();
+            services.AddSingleton<CustomIDataProtection>();
             services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = true)
                 .AddEntityFrameworkStores<ApplicationDbContext>();
 

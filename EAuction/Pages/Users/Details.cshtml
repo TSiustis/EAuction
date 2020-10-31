@@ -2,44 +2,55 @@
 @model EAuction.Pages.Users.DetailsModel
 
 @{
-    ViewData["Title"] = Model.MyUser.NickName  + "'s Profile";
+    ViewData["Title"] = Model.MyUser.NickName + "'s Profile";
     Layout = "~/Pages/Shared/_Layout.cshtml";
 }
 
 <h1>Details</h1>
-<div class="panel panel-default">
-    <div class="panel-body">
-        <span>Bidder: @Model.MyUser.NickName</span>
-        <span>Amount: @Model.MyUser.Feedback</span>
+<div class="row">
+    <div class="col-md-4 col-lg-4">
+        <div class="caption border" >
+            <p>ID: @ViewData["id"]</p>
+            <h3> @Model.MyUser.NickName</h3>
+            <p>Feedback: @Model.MyUser.Feedback %</p>
 
-        <span>Bidder: @Model.MyUser.Country</span>
-        <button class="messageBtn btn btn-lg">Message</button>
-        <form class="hidden" type="post" id="messageForm">
+            <p>Country: @Model.MyUser.Country</p>
+            <button class="messageBtn btn btn-lg">Message</button>
 
-            <label asp-for="Message.Subject" class="control-label"></label>
-            <input asp-for="Message.Subject" class="form-control" />
-
-            <label asp-for="Message.MessageBody" class="control-label"></label>
-            <input asp-for="Message.MessageBody" class="form-control" />
+        </div>
+    </div>
+    <div class="col-md-6 col-lg-6">
+        <form class="hidden" type="post" id="messageForm" asp-action="post">
+            <div class="form-group">
+                <label asp-for="Message.Subject" class="control-label"></label>
+                <input asp-for="Message.Subject" class="form-control" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Message.MessageBody" class="control-label"></label>
+                <textarea asp-for="Message.MessageBody" class="form-control" ></textarea>
+            </div>
+            <div class="form-group">
+                <button type="submit" class="btn btn-primary">Send</button>
+                </div>
         </form>
     </div>
-    <div class="panel-footer">
-        <a class="btn btn-lg"
-           asp-page="./Detail"
-           asp-route-Id="@Model.MyUser.Id">
-            <i class="glyphicon glyphicon-zoom-in"></i>
+<div class="panel-footer">
+    <a class="btn btn-lg"
+       asp-page="./Detail"
+       asp-route-Id="@Model.MyUser.Id">
+        <i class="glyphicon glyphicon-zoom-in"></i>
+    </a>
+    @*<a class="btn btn-lg"
+           asp-page="./Edit"
+           asp-route-Id="@Model.Id">
+            <i class="glyphicon glyphicon-edit"></i>
         </a>
-        @*<a class="btn btn-lg"
-               asp-page="./Edit"
-               asp-route-Id="@Model.Id">
-                <i class="glyphicon glyphicon-edit"></i>
-            </a>
-            <a class="btn btn-lg"
-               asp-page="./Delete"
-               asp-route-Id="@Model.Id">
-                <i class="glyphicon glyphicon-trash"></i>
-            </a>*@
-    </div>
+        <a class="btn btn-lg"
+           asp-page="./Delete"
+           asp-route-Id="@Model.Id">
+            <i class="glyphicon glyphicon-trash"></i>
+        </a>*@
+</div>
 
 </div>
 @section Scripts{

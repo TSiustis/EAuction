@@ -9,58 +9,42 @@ namespace EAuction.Models
     {
         private readonly ApplicationDbContext _context;
 
-        private readonly List<Message> messageHistory = new List<Message>();
         public MessageRepository(ApplicationDbContext context)
         {
 
             _context = context;
 
         }
-        public List<Message> GetAllConversationsForUser(User User)
+        public List<Message> GetAllConversationsForUserExceptFirst(User User)
         {
-            return _context.Messages.Where(m =>m.Sender == User).ToList();
+            return _context.Messages.Where(m =>m.Receiver == User && m.ParentId !=0).ToList();
         }
-
-        public int GetNewMessagesCount(int userId)
+        public List<Message> GetFirstMessageForUser(User User)
         {
-            throw new NotImplementedException();
+            return _context.Messages.Where(m => m.Receiver == User && m.ParentId == 0).ToList();
         }
+      
 
         public void SendMessage(Message Message, User receiver,User sender)
         {
             var prevMessage = _context.Messages.Where(p => (p.Receiver == receiver && p.Sender == sender)
                     || (p.Receiver== sender && p.Sender == receiver)).FirstOrDefault();
 
-            if (prevMessage != null)
-            {
-                Message.ParentId = prevMessage.Id;
-               
-            }
+            Message.ParentId = prevMessage == null ? 0 :  prevMessage.Id;
             Message.Sender = sender;
             Message.Receiver = receiver;
             _context.Messages.Add(Message);
             _context.SaveChanges();
 
         }
-        private void GetChildMessages(int messageId, List<Message> lsMessages, int currentUserId)
+
+        public List<Message> GetChildMessages(int messageId, List<Message> Messages)
         {
-            var childMsg = lsMessages.FirstOrDefault(p => p.ParentId == messageId);
-        if (childMsg != null)
-            {
-                messageHistory.Add(childMsg);
-                GetChildMessages(childMsg.Id, lsMessages, currentUserId);
-            }
+            var childMsg = Messages.Where(p => p.ParentId == messageId).ToList();
+            return childMsg;
         }
     
 
-    public void SendMessage(Message Message)
-        {
-            throw new NotImplementedException();
-        }
-
-        public void SetMessageViewed(int messageId)
-        {
-            throw new NotImplementedException();
-        }
+   
     }
 }
