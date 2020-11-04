@@ -15,6 +15,10 @@ namespace EAuction.Models
             _context = context;
 
         }
+        public List<Message> GetMessagesById(int id)
+        {
+            return _context.Messages.Where(m => m.Id == id || m.ParentId == id).ToList();
+        }
         public List<Message> GetAllConversationsForUserExceptFirst(User User)
         {
             return _context.Messages.Where(m =>m.Receiver == User && m.ParentId !=0).ToList();
@@ -30,7 +34,9 @@ namespace EAuction.Models
             var prevMessage = _context.Messages.Where(p => (p.Receiver == receiver && p.Sender == sender)
                     || (p.Receiver== sender && p.Sender == receiver)).FirstOrDefault();
 
-            Message.ParentId = prevMessage == null ? 0 :  prevMessage.Id;
+           Message.Subject =prevMessage != null ? prevMessage.Subject : Message.Subject;
+            Message.ParentId = prevMessage == null? 0 :  prevMessage.Id;
+            Message.CreatedAt = DateTime.UtcNow;
             Message.Sender = sender;
             Message.Receiver = receiver;
             _context.Messages.Add(Message);
@@ -38,11 +44,7 @@ namespace EAuction.Models
 
         }
 
-        public List<Message> GetChildMessages(int messageId, List<Message> Messages)
-        {
-            var childMsg = Messages.Where(p => p.ParentId == messageId).ToList();
-            return childMsg;
-        }
+     
     
 
    

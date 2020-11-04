@@ -22,62 +22,33 @@
 
             <partial name="~/Areas/Identity/Pages/Account/Manage/_ManageNav.cshtml" asp-area="Identity" />
         </div>
+        <div class="col border">
+        <div class="row   no-gutters">
 
-        <div class="col  border no-gutters">
+            <div class="caption col"> <h3>  From </h3></div>
 
-            <div class="caption col-lg-8">
-                <h3>  From </h3>
+                <div class="col"><h3>Subject</h3></div>
 
-                <p>@Model.FirstMessage[0].Subject</p>
-
-                <h4 class="pull-right">Received</h4>
+              <div class="col"> <h3>Received</h3></div>
             </div>
 
             @foreach (var item in @Model.FirstMessage)
             {
                 <div class="row  no-gutters">
 
-                    <div class="caption col-xs-8 col-md-8 col-lg-8">
-                        <h3> @item.Sender.NickName</h3>
-
-                        <p>@item.Subject</p>
-
-                        <h4 class="pull-right">@item.CreatedAt.ToShortDateString()</h4>
+                    <div class="col"><h4> @item.Sender.NickName</h4></div>
+                       <div class="col"><a class="btn btn-lg"
+                               asp-page="./MessageDetails"
+                               asp-route-Id="@item.Id">
+                                <i class="glyphicon glyphicon-zoom-in"></i> <h5>@item.Subject</h5></a>
                     </div>
+                                <div class="col"><p >@item.CreatedAt.ToShortDateString()</p></div>
 
 
 
                 </div>
-
-
-
-
-
-
+                <hr/>
             }
-
         </div>
     </div>
-<button type="submit" class="btn-primary">Reply</button>
-<form method="post" id="messageForm" class="hidden">
 
-    <div class="form-group col-md-8">
-        <label asp-for="Message.MessageBody" class="control-label"></label>
-        <textarea asp-for="Message.MessageBody" class="form-control"></textarea>
-        <span asp-validation-for="Message.MessageBody" class="text-danger"></span>
-
-    </div>
-    <div class="form-group">
-        <input type="submit" value="Send" class="btn btn-primary" />
-    </div>
-</form>
-@section Scripts{
-    <script>
-        $(function () {
-
-            $('button').click(function () {
-                $('#messageForm').removeClass('hidden');
-            });
-        });
-    </script>
-}

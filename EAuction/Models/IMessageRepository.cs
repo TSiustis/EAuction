@@ -10,6 +10,6 @@ namespace EAuction.Models
         void SendMessage(Message Message, User receiver, User sender);
         List<Message> GetAllConversationsForUserExceptFirst(User User);
         List<Message> GetFirstMessageForUser(User User);
-        List<Message> GetChildMessages(int messageId, List<Message> Messages);
+        List<Message> GetMessagesById(int id);
     }
 }

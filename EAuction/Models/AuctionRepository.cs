@@ -38,12 +38,12 @@ namespace EAuction.Models
 
         public IQueryable<Auction> GetAuctions()
         {
-            return _context.Auctions;
+            return _context.Auctions.Where(a=>a.EndDate > DateTime.UtcNow);
         }
 
         public IQueryable<Auction> GetAuctions(string SearchString)
         {
-            return  _context.Auctions.Where(a => a.Name.Contains(SearchString));
+            return  _context.Auctions.Where(a => a.Name.Contains(SearchString) && a.EndDate > DateTime.UtcNow);
         }
 
         
@@ -78,7 +78,7 @@ namespace EAuction.Models
 
         public IQueryable<Auction> FilterByCategory(string filterCategory)
         {
-            return _context.Auctions.Where(a => a.Category == (Category)Enum.Parse(typeof(Category), filterCategory));
+            return _context.Auctions.Where(a => a.Category == (Category)Enum.Parse(typeof(Category), filterCategory) && a.EndDate > DateTime.UtcNow);
         }
     }
 }

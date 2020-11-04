@@ -49,7 +49,7 @@ a {
     line-height: 15px;
     color: #333;
 }
-ul {
+#main-nav {
     display: flex;
     align-items: center;
     justify-content: center;

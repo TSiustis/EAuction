@@ -7,33 +7,64 @@ using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.EntityFrameworkCore;
 using EAuction.Data;
 using EAuction.Models;
+using Microsoft.AspNetCore.Identity;
 
 namespace EAuction.Pages.Users
 {
     public class MessageDetailsModel : PageModel
     {
-        private readonly EAuction.Data.ApplicationDbContext _context;
+        private readonly UserManager<EAuction.Models.User> _userManager;
+        private readonly ApplicationDbContext _context;
+        private readonly IMessageRepository _messageRepository;
 
-        public MessageDetailsModel(EAuction.Data.ApplicationDbContext context)
+        public string? MessageSubject;
+        [BindProperty(SupportsGet = true)]
+        public List<Message> Messages { get; set; }
+        [BindProperty]
+        public Message Message { get; set; }
+        [BindProperty(SupportsGet = true)]
+        public List<Message> FirstMessage { get; set; }
+        public MessageDetailsModel(ApplicationDbContext context, IMessageRepository messageRepository, UserManager<User> userManager)
         {
+            _messageRepository = messageRepository;
+            _userManager = userManager;
             _context = context;
         }
 
-        public Message Message { get; set; }
-
-        public async Task<IActionResult> OnGetAsync(int? id)
+        public async Task<IActionResult> OnGetAsync(int id)
         {
-            if (id == null)
+            var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            Messages = _messageRepository.GetMessagesById(id);
+           
+            if (Messages.FirstOrDefault() != null)
+            {
+                MessageSubject = Messages.FirstOrDefault().Subject;
+            }
+            if (Messages == null)
             {
                 return NotFound();
             }
 
-            Message = await _context.Messages.FirstOrDefaultAsync(m => m.Id == id);
 
-            if (Message == null)
+           
+            return Page();
+        }
+        public IActionResult OnPost(int id)
+        {
+
+            var user = _userManager.GetUserAsync(User).GetAwaiter().GetResult();
+            if (!ModelState.IsValid)
             {
-                return NotFound();
+                Messages = _messageRepository.GetMessagesById(id);
+
+                MessageSubject = Messages[0].Subject;
+                return Page();
             }
+
+            Messages = _messageRepository.GetMessagesById(id);
+            _messageRepository.SendMessage(Message, Messages[0].Sender, user);
+
+            Message.MessageBody = "";
             return Page();
         }
     }
