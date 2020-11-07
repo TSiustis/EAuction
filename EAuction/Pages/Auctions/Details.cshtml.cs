@@ -76,8 +76,15 @@ namespace EAuction.Pages.Auctions
             //}
             int Id = (int)id;
             Auction = _auctionRepository.GetAuctionById(Id);
-            var currentBid = Auction.Bids.Max(bid => bid.Amount);
-
+            var currentBid = Auction.Bids.Select(bid=>bid.Amount)
+                                          .DefaultIfEmpty()
+                                          .Max();
+            if(Amount == 0)
+            {
+                Error = "Please enter a value!";
+                TimeLeft = Auction.EndDate - Auction.StartDate;
+                return Page();
+            }
             NoOfBids = Auction.Bids.Count();
             if (Amount < currentBid)
             {

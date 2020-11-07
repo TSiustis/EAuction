@@ -29,11 +29,13 @@ namespace EAuction.Models
         [Required]
         [StringLength(4000)]
         public string Details { get; set; }
+        [Display(Name = "Image: ")]
         public string UrlImage { get; set; }
         [Required]
         public double Price { get; set; }
         public DateTime StartDate { get; set; }
         [Required]
+        [Display(Name = "End Date")]
         public DateTime EndDate { get; set; }
         [Required]
         public Country Country { get; set; }

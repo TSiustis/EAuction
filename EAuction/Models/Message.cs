@@ -10,6 +10,8 @@ namespace EAuction.Models
     {
         public int Id { get; set; }
         public string Subject { get; set; }
+
+        [Required]
         [Display(Name ="Message: ")]
         public string MessageBody { get; set; }
         public int ParentId { get; set; }

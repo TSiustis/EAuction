@@ -4,7 +4,6 @@ namespace EAuction.Models
 {
     public enum Country
     {
-
         Albania,
         Austria,
         Belarus,

@@ -11,6 +11,51 @@
         "dist/browser/signalr.min.js",
         "dist/browser/signalr.min.js.map"
       ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ckeditor@4.15.0",
+      "destination": "wwwroot/lib/ckeditor/",
+      "files": [
+        "ckeditor.js",
+        "ckeditor.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ckeditor@4.15.0",
+      "destination": "wwwroot/lib/ckeditor/",
+      "files": [
+        "ckeditor.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ckeditor@4.15.0",
+      "destination": "wwwroot/lib/ckeditor/",
+      "files": [
+        "ckeditor.js",
+        "config.js",
+        "ckeditor.min.js",
+        "config.min.js"
+      ]
+    },
+    {
+      "provider": "cdnjs",
+      "library": "ckeditor@4.15.0",
+      "destination": "wwwroot/lib/ckeditor/",
+      "files": [
+        "ckeditor.js",
+        "config.js",
+        "ckeditor.min.js",
+        "config.min.js"
+      ]
     }
-  ]
+  ,
+{
+  "provider": "cdnjs",
+  "library": "ckeditor@4.15.0",
+  "destination": "wwwroot/lib/ckeditor/"
+}
+]
 }

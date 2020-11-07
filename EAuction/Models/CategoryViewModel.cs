@@ -8,6 +8,7 @@ namespace EAuction.Models
 {
     public class CategoryViewModel
     {
+
         public List<SelectListItem> Categories { get; set; }
         public CategoryViewModel()
         {
@@ -549,7 +550,8 @@ namespace EAuction.Models
                 }
       };
         }
-    
+
+      
     }
 
        

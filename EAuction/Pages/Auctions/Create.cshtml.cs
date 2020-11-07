@@ -27,7 +27,7 @@ namespace EAuction.Pages.Auctions
         public CategoryViewModel CategoriesVM { get; set; }
         [BindProperty(SupportsGet =true)]
         public IEnumerable<string> Categories { get; set; }
-        public IEnumerable<SelectListItem> Countries { get; set; }
+        public List<SelectListItem> Countries { get; set; }
         public List<SelectListItem> CategoriesList { get; set; }
         [BindProperty]
         public IFormFile selectedFile { get; set; }
@@ -42,11 +42,11 @@ namespace EAuction.Pages.Auctions
             _context = context;
             this.htmlHelper = htmlHelper;
         }
-      
+
         public async Task<IActionResult> OnGetAsync()
         {
-            Countries = htmlHelper.GetEnumSelectList<Country>();
-
+            Countries = htmlHelper.GetEnumSelectList<Country>().ToList();
+            Countries.Insert(0,new SelectListItem { Text = "Select Country", Disabled = true, Selected = true });
             CategoriesList = CategoriesVM.Categories;
             return Page();
         }
@@ -63,9 +63,10 @@ namespace EAuction.Pages.Auctions
 
             if (!ModelState.IsValid)
             {
-                Countries = htmlHelper.GetEnumSelectList<Country>();
-
+                Countries = htmlHelper.GetEnumSelectList<Country>().ToList();
+                Countries.Insert(0,new SelectListItem { Text = "Select Country", Disabled = true , Selected = true});
                 CategoriesList = CategoriesVM.Categories;
+
                 return Page();
             }
                 if (selectedFile != null && selectedFile.Length > 0)
