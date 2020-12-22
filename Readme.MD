@@ -21,9 +21,6 @@ To run the application:
 * Run the application! That's it.
 
 
-## Live Demo
-
-See the live demo on https://eauction122.azurewebsites.net/
 
 After creating a user you can create your own auctions or bid on existing items.
 
